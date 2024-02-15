@@ -9,7 +9,7 @@ import {
     TipoDe,
     Unario,
     Variavel,
-} from '../../../construtos';
+} from '@designliquido/delegua/construtos';
 import {
     Bloco,
     Classe,
@@ -30,8 +30,8 @@ import {
     Se,
     Tente,
     Var,
-} from '../../../declaracoes';
-import { EspacoVariaveis } from '../../../espaco-variaveis';
+} from '@designliquido/delegua/declaracoes';
+import { EspacoVariaveis } from '@designliquido/delegua/espaco-variaveis';
 import {
     Chamavel,
     DeleguaClasse,
@@ -40,20 +40,21 @@ import {
     FuncaoPadrao,
     MetodoPrimitiva,
     ObjetoPadrao,
-} from '../../../estruturas';
-import { ErroEmTempoDeExecucao } from '../../../excecoes';
-import { ParametroInterface, SimboloInterface, VariavelInterface } from '../../../interfaces';
-import { ErroInterpretador } from '../../../interfaces/erros/erro-interpretador';
-import { EscopoExecucao } from '../../../interfaces/escopo-execucao';
-import { InterpretadorInterfaceBirl } from '../../../interfaces/interpretador-interface-birl';
-import { PilhaEscoposExecucaoInterface } from '../../../interfaces/pilha-escopos-execucao-interface';
-import { RetornoInterpretador } from '../../../interfaces/retornos';
-import { ContinuarQuebra, Quebra, RetornoQuebra, SustarQuebra } from '../../../quebras';
-import tiposDeSimbolos from '../../../tipos-de-simbolos/birl';
-import { ArgumentoInterface } from '../../argumento-interface';
-import { inferirTipoVariavel } from '../../inferenciador';
-import { InterpretadorBase } from '../../interpretador-base';
-import { PilhaEscoposExecucao } from '../../pilha-escopos-execucao';
+} from '@designliquido/delegua/estruturas';
+import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
+import { ParametroInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
+import { ErroInterpretador } from '@designliquido/delegua/interfaces/erros/erro-interpretador';
+import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
+import { InterpretadorInterfaceBirl } from '@designliquido/delegua/interfaces/interpretador-interface-birl';
+import { PilhaEscoposExecucaoInterface } from '@designliquido/delegua/interfaces/pilha-escopos-execucao-interface';
+import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
+import { ContinuarQuebra, Quebra, RetornoQuebra, SustarQuebra } from '@designliquido/delegua/quebras';
+import { ArgumentoInterface } from '@designliquido/delegua/interpretador/argumento-interface';
+import { inferirTipoVariavel } from '@designliquido/delegua/interpretador/inferenciador';
+import { InterpretadorBase } from '@designliquido/delegua/interpretador/interpretador-base';
+import { PilhaEscoposExecucao } from '@designliquido/delegua/interpretador/pilha-escopos-execucao';
+
+import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 
 import * as comum from './comum';
 

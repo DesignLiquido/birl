@@ -1,18 +1,18 @@
 import { Construto, Literal } from '@designliquido/delegua/construtos';
 import { Declaracao, Leia, Para } from '@designliquido/delegua/declaracoes';
-import { InterpretadorBirlInterface } from '@designliquido/delegua/interfaces/dialetos/interpretador-birl-interface';
 import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { InterpretadorComDepuracao } from '@designliquido/delegua/interpretador/interpretador-com-depuracao';
 
 import * as comum from './comum';
+import { InterpretadorInterface } from '@designliquido/delegua';
 
-export class InterpretadorBirlComDepuracao extends InterpretadorComDepuracao implements InterpretadorBirlInterface {
+export class InterpretadorBirlComDepuracao extends InterpretadorComDepuracao {
     constructor(diretorioBase: string, funcaoDeRetorno: Function = null, funcaoDeRetornoMesmaLinha: Function = null) {
         super(diretorioBase, funcaoDeRetorno, funcaoDeRetornoMesmaLinha);
     }
 
     async atribuirVariavel(
-        interpretador: InterpretadorBirlInterface,
+        interpretador: InterpretadorInterface,
         expressao: Construto,
         valor: any,
         tipo: string

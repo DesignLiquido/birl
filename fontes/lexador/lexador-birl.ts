@@ -2,10 +2,10 @@ import { RetornoLexador } from '@designliquido/delegua/interfaces/retornos';
 import { ErroLexador } from '@designliquido/delegua/lexador/erro-lexador';
 import { LexadorBaseLinhaUnica } from '@designliquido/delegua/lexador/lexador-base-linha-unica';
 import { Simbolo } from '@designliquido/delegua/lexador/simbolo';
-
-import tiposDeSimbolos from '@designliquido/delegua/tipos-de-simbolos/birl';
-import { palavrasReservadas } from './palavras-reservadas';
 import { SimboloInterface } from '@designliquido/delegua/interfaces';
+
+import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
+import { palavrasReservadas } from './palavras-reservadas';
 
 export class LexadorBirl extends LexadorBaseLinhaUnica {
     adicionarSimbolo(tipo: string, lexema: string = '', literal: any = null): void {

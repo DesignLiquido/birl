@@ -45,7 +45,6 @@ import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
 import { ParametroInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
 import { ErroInterpretador } from '@designliquido/delegua/interfaces/erros/erro-interpretador';
 import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
-import { InterpretadorInterfaceBirl } from '@designliquido/delegua/interfaces/interpretador-interface-birl';
 import { PilhaEscoposExecucaoInterface } from '@designliquido/delegua/interfaces/pilha-escopos-execucao-interface';
 import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { ContinuarQuebra, Quebra, RetornoQuebra, SustarQuebra } from '@designliquido/delegua/quebras';
@@ -58,7 +57,7 @@ import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 
 import * as comum from './comum';
 
-export class InterpretadorBirl extends InterpretadorBase implements InterpretadorInterfaceBirl {
+export class InterpretadorBirl extends InterpretadorBase {
     diretorioBase: any;
 
     funcaoDeRetorno: Function = null;

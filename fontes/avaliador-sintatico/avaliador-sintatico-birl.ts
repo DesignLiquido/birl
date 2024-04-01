@@ -33,7 +33,8 @@ import { AvaliadorSintaticoBase } from '@designliquido/delegua/avaliador-sintati
 
 import { Construto } from '@designliquido/delegua/construtos/construto';
 import { ParametroInterface, SimboloInterface } from '@designliquido/delegua/interfaces';
-import tiposDeSimbolos from '@designliquido/delegua/tipos-de-simbolos/birl';
+
+import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 
 /**
  * Avaliador Sintático de BIRL

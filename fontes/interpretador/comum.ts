@@ -1,8 +1,8 @@
+import { InterpretadorInterface } from '@designliquido/delegua';
 import { AcessoIndiceVariavel, Construto, Literal, Variavel } from '@designliquido/delegua/construtos';
 import { Declaracao, Leia, Para } from '@designliquido/delegua/declaracoes';
 import { EspacoVariaveis } from '@designliquido/delegua/espaco-variaveis';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
-import { InterpretadorBirlInterface } from '@designliquido/delegua/interfaces/dialetos/interpretador-birl-interface';
 import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
 import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { ContinuarQuebra, Quebra, SustarQuebra } from '@designliquido/delegua/quebras';
@@ -30,7 +30,7 @@ function converteTipoOuEstouraError(valor: any, tipo: string) {
 }
 
 export async function atribuirVariavel(
-    interpretador: InterpretadorBirlInterface,
+    interpretador: InterpretadorInterface,
     expressao: Construto,
     valor: any,
     tipo: string
@@ -81,7 +81,7 @@ export async function atribuirVariavel(
 }
 
 export async function avaliarArgumentosEscreva(
-    interpretador: InterpretadorBirlInterface,
+    interpretador: InterpretadorInterface,
     argumentos: Construto[]
 ): Promise<string> {
     let formatoTexto: string = '';
@@ -90,10 +90,13 @@ export async function avaliarArgumentosEscreva(
     if (argumentos.length < 1) {
         throw new Error('Escreva precisa de pelo menos um argumento.');
     }
+
     if (typeof argumentos[0].valor !== 'string') {
         throw new Error('O primeiro argumento de Escreva precisa ser uma string.');
     }
-    quantidadeInterpolacoes = await interpretador.resolveQuantidadeDeInterpolacoes(argumentos[0] as Literal);
+
+    // TODO: Implementar interface se necessário.
+    quantidadeInterpolacoes = await (interpretador as any).resolveQuantidadeDeInterpolacoes(argumentos[0] as Literal);
 
     const resultadoAvaliacaoLiteral = await interpretador.avaliar(argumentos[0]);
 
@@ -116,8 +119,9 @@ export async function avaliarArgumentosEscreva(
             valor: await interpretador.avaliar(argumentos[i + 1]),
         };
 
-        if (interpretador.verificaTipoDaInterpolação(dados)) {
-            formatoTexto = await interpretador.substituirValor(formatoTexto, dados.valor, dados.tipo);
+        // TODO: Implementar interface se necessário.
+        if ((interpretador as any).verificaTipoDaInterpolação(dados)) {
+            formatoTexto = await (interpretador as any).substituirValor(formatoTexto, dados.valor, dados.tipo);
         }
     }
 
@@ -197,7 +201,7 @@ export async function substituirValor(
     return resultado;
 }
 
-export async function visitarExpressaoLeia(interpretador: InterpretadorBirlInterface, expressao: Leia): Promise<any> {
+export async function visitarExpressaoLeia(interpretador: InterpretadorInterface, expressao: Leia): Promise<any> {
     // const mensagem = expressao.argumentos && expressao.argumentos[0] ? expressao.argumentos[0].valor : '> ';
     /**
      * Em Birl não se usa mensagem junto com o prompt, normalmente se usa um Escreva antes.
@@ -230,7 +234,7 @@ export async function visitarExpressaoLiteral(expressao: Literal): Promise<any> 
     return Promise.resolve(expressao.valor);
 }
 
-export async function visitarDeclaracaoPara(interpretador: InterpretadorBirlInterface, declaracao: Para): Promise<any> {
+export async function visitarDeclaracaoPara(interpretador: InterpretadorInterface, declaracao: Para): Promise<any> {
     if (declaracao.inicializador !== null) {
         if (declaracao.inicializador instanceof Array) {
             if (declaracao.inicializador[0] instanceof Variavel) {
@@ -278,7 +282,7 @@ export async function visitarDeclaracaoPara(interpretador: InterpretadorBirlInte
 }
 
 export async function interpretar(
-    interpretador: InterpretadorBirlInterface,
+    interpretador: InterpretadorInterface,
     declaracoes: Declaracao[],
     manterAmbiente?: boolean
 ): Promise<RetornoInterpretador> {
@@ -295,7 +299,8 @@ export async function interpretar(
     interpretador.pilhaEscoposExecucao.empilhar(escopoExecucao);
 
     try {
-        const retornoOuErro = await interpretador.executarUltimoEscopo(manterAmbiente);
+        // TODO: Implementar interface se necessário.
+        const retornoOuErro = await (interpretador as any).executarUltimoEscopo(manterAmbiente);
         if (retornoOuErro instanceof ErroEmTempoDeExecucao) {
             interpretador.erros.push(retornoOuErro);
         }
@@ -306,12 +311,13 @@ export async function interpretar(
             hashArquivo: -1,
         });
     } finally {
+        // TODO: Implementar interface se necessário.
         const retorno = {
             erros: interpretador.erros,
-            resultado: interpretador.resultadoInterpretador,
+            resultado: (interpretador as any).resultadoInterpretador,
         } as RetornoInterpretador;
 
-        interpretador.resultadoInterpretador = [];
+        (interpretador as any).resultadoInterpretador = [];
         return retorno;
     }
 }

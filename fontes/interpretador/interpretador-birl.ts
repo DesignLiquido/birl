@@ -1,6 +1,7 @@
 import {
     Atribuir,
     Binario,
+    Comentario,
     Construto,
     FimPara,
     Literal,
@@ -111,6 +112,10 @@ export class InterpretadorBirl extends InterpretadorBase {
             emLacoRepeticao: false,
         };
         this.pilhaEscoposExecucao.empilhar(escopoExecucao);
+    }
+
+    visitarDeclaracaoComentario(declaracao: Comentario): Promise<any> {
+        return Promise.resolve();
     }
 
     visitarExpressaoTipoDe(expressao: TipoDe): Promise<any> {
@@ -452,8 +457,9 @@ export class InterpretadorBirl extends InterpretadorBase {
             if (entidadeChamada instanceof FuncaoPadrao) {
                 try {
                     return entidadeChamada.chamar(
+                        undefined,
                         argumentos.map((a) => (a !== null && a.hasOwnProperty('valor') ? a.valor : a)),
-                        expressao.entidadeChamada.nome
+                        expressao.entidadeChamada.simbolo
                     );
                 } catch (erro: any) {
                     this.erros.push({

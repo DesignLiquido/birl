@@ -7,7 +7,7 @@ import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execuca
 import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { ContinuarQuebra, Quebra, SustarQuebra } from '@designliquido/delegua/quebras';
 
-function converteTipoOuEstouraError(valor: any, tipo: string) {
+function converterTipoOuEstourarErro(valor: any, tipo: string) {
     try {
         switch (tipo) {
             case 'texto':
@@ -35,7 +35,7 @@ export async function atribuirVariavel(
     valor: any,
     tipo: string
 ): Promise<any> {
-    valor = converteTipoOuEstouraError(valor, tipo);
+    valor = converterTipoOuEstourarErro(valor, tipo);
 
     if (expressao instanceof Variavel) {
         interpretador.pilhaEscoposExecucao.atribuirVariavel(expressao.simbolo, valor);
@@ -96,7 +96,7 @@ export async function avaliarArgumentosEscreva(
     }
 
     // TODO: Implementar interface se necessário.
-    quantidadeInterpolacoes = await (interpretador as any).resolveQuantidadeDeInterpolacoes(argumentos[0] as Literal);
+    quantidadeInterpolacoes = await (interpretador as any).resolverQuantidadeDeInterpolacoes(argumentos[0] as Literal);
 
     const resultadoAvaliacaoLiteral = await interpretador.avaliar(argumentos[0]);
 
@@ -128,7 +128,7 @@ export async function avaliarArgumentosEscreva(
     return formatoTexto.trimEnd();
 }
 
-export async function resolveQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
+export async function resolverQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
     const stringOriginal: string = texto.valor;
     const regex = /%[a-zA-Z]/g;
 
@@ -137,7 +137,7 @@ export async function resolveQuantidadeDeInterpolacoes(texto: Literal): Promise<
     return matches;
 }
 
-export async function verificaTipoDaInterpolação(dados: { tipo: string; valor: any }) {
+export async function verificarTipoDaInterpolacao(dados: { tipo: string; valor: any }) {
     switch (dados.tipo) {
         case 'd':
         case 'i':

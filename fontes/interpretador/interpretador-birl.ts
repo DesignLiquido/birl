@@ -651,11 +651,11 @@ export class InterpretadorBirl extends InterpretadorBase {
     }
 
     async resolveQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
-        return comum.resolveQuantidadeDeInterpolacoes(texto);
+        return comum.resolverQuantidadeDeInterpolacoes(texto);
     }
 
     async verificaTipoDaInterpolação(dados: { tipo: string; valor: any }) {
-        return comum.verificaTipoDaInterpolação(dados);
+        return comum.verificarTipoDaInterpolacao(dados);
     }
 
     async avaliarArgumentosEscreva(argumentos: Construto[]): Promise<string> {

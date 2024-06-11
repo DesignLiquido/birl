@@ -219,12 +219,6 @@ export class InterpretadorBirl extends InterpretadorBase {
         return null;
     }
 
-    protected eIgual(esquerda: VariavelInterface | any, direita: VariavelInterface | any): boolean {
-        if (esquerda === null && direita === null) return true;
-        if (esquerda === null) return false;
-        return esquerda === direita;
-    }
-
     /**
      * Verifica se operandos são números, que podem ser tanto variáveis puras do JavaScript
      * (neste caso, `number`), ou podem ser variáveis de Delégua com inferência (`VariavelInterface`).
@@ -686,23 +680,6 @@ export class InterpretadorBirl extends InterpretadorBase {
     }
     async visitarExpressaoBloco(declaracao: Bloco): Promise<any> {
         return await this.executarBloco(declaracao.declaracoes);
-    }
-
-    protected async avaliacaoDeclaracaoVarOuConst(declaracao: Var): Promise<any> {
-        let valorOuOutraVariavel = null;
-
-        if (declaracao.inicializador !== null) {
-            valorOuOutraVariavel = await this.avaliar(declaracao.inicializador);
-        }
-
-        let valorFinal = null;
-        if (valorOuOutraVariavel !== null && valorOuOutraVariavel !== undefined) {
-            valorFinal = valorOuOutraVariavel.hasOwnProperty('valor')
-                ? valorOuOutraVariavel.valor
-                : valorOuOutraVariavel;
-        }
-
-        return valorFinal;
     }
 
     /**

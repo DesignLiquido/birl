@@ -120,7 +120,7 @@ export async function avaliarArgumentosEscreva(
         };
 
         // TODO: Implementar interface se necessário.
-        if ((interpretador as any).verificaTipoDaInterpolação(dados)) {
+        if ((interpretador as any).verificarTipoDaInterpolacao(dados)) {
             formatoTexto = await (interpretador as any).substituirValor(formatoTexto, dados.valor, dados.tipo);
         }
     }

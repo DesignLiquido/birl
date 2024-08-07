@@ -35,7 +35,7 @@ import {
 import { EspacoVariaveis } from '@designliquido/delegua/espaco-variaveis';
 import {
     Chamavel,
-    DeleguaClasse,
+    DescritorTipoClasse,
     DeleguaFuncao,
     DeleguaModulo,
     FuncaoPadrao,
@@ -418,7 +418,7 @@ export class InterpretadorBirl extends InterpretadorBase {
             let parametros: ParametroInterface[];
             if (entidadeChamada instanceof DeleguaFuncao) {
                 parametros = entidadeChamada.declaracao.parametros;
-            } else if (entidadeChamada instanceof DeleguaClasse) {
+            } else if (entidadeChamada instanceof DescritorTipoClasse) {
                 parametros = entidadeChamada.metodos.inicializacao
                     ? entidadeChamada.metodos.inicializacao.declaracao.parametros
                     : [];
@@ -644,11 +644,11 @@ export class InterpretadorBirl extends InterpretadorBase {
         return comum.substituirValor(stringOriginal, novoValor, simboloTipo);
     }
 
-    async resolveQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
+    async resolverQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
         return comum.resolverQuantidadeDeInterpolacoes(texto);
     }
 
-    async verificaTipoDaInterpolação(dados: { tipo: string; valor: any }) {
+    async verificarTipoDaInterpolacao(dados: { tipo: string; valor: any }) {
         return comum.verificarTipoDaInterpolacao(dados);
     }
 
@@ -729,7 +729,7 @@ export class InterpretadorBirl extends InterpretadorBase {
         this.pilhaEscoposExecucao.definirVariavel(declaracao.simbolo.lexema, funcao);
     }
 
-    async visitarDeclaracaoClasse(declaracao: Classe) {
+    async visitarDeclaracaoClasse(declaracao: Classe): Promise<any> {
         throw new Error('Método não implementado.');
     }
 

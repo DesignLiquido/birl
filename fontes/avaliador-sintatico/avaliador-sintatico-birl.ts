@@ -185,7 +185,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             } else if (expressao instanceof AcessoIndiceVariavel) {
                 return new AtribuicaoPorIndice(this.hashArquivo, 0, expressao.entidadeChamada, expressao.indice, valor);
             }
-            this.erro(igual, 'Tarefa de atribuição inválida');
+            this.erros.push(this.erro(igual, 'Tarefa de atribuição inválida'));
         }
 
         return expressao;
@@ -231,7 +231,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     }
 
     declaracaoPara(): Para {
-        const primeiroSimbolo = this.consumir(
+        this.consumir(
             tiposDeSimbolos.MAIS,
             'Esperado expressão `MAIS` para iniciar o bloco `PARA`.'
         );
@@ -400,13 +400,17 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     validarTipoDeclaracaoInteiro(): SimboloInterface {
         if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRO)) {
             return this.consumir(tiposDeSimbolos.MONSTRO, '');
-        } else if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRINHO)) {
-            return this.consumir(tiposDeSimbolos.MONSTRINHO, '');
-        } else if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRAO)) {
-            return this.consumir(tiposDeSimbolos.MONSTRAO, '');
-        } else {
-            throw new Error('Simbolo referente a inteiro não especificado.');
         }
+        
+        if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRINHO)) {
+            return this.consumir(tiposDeSimbolos.MONSTRINHO, '');
+        }
+        
+        if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRAO)) {
+            return this.consumir(tiposDeSimbolos.MONSTRAO, '');
+        } 
+
+        this.erros.push(this.erro(this.simbolos[this.atual], 'Simbolo referente a inteiro não especificado.'));
     }
 
     declaracaoInteiros(): Var[] {
@@ -646,7 +650,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     }
 
     declaracaoSe(): Se {
-        const { condicaoSe, simboloSe } = this.consomeSe();
+        const { condicaoSe } = this.consomeSe();
 
         const caminhoEntão = this.resolveCaminhoSe();
 
@@ -938,7 +942,6 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
                 }
 
                 return this.expressao();
-
             default:
                 return this.expressao();
         }

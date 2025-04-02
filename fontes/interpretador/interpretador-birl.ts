@@ -50,7 +50,7 @@ import { PilhaEscoposExecucaoInterface } from '@designliquido/delegua/interfaces
 import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { ContinuarQuebra, Quebra, RetornoQuebra, SustarQuebra } from '@designliquido/delegua/quebras';
 import { ArgumentoInterface } from '@designliquido/delegua/interpretador/argumento-interface';
-import { inferirTipoVariavel } from '@designliquido/delegua/interpretador/inferenciador';
+import { inferirTipoVariavel } from '@designliquido/delegua/inferenciador';
 import { InterpretadorBase } from '@designliquido/delegua/interpretador/interpretador-base';
 import { PilhaEscoposExecucao } from '@designliquido/delegua/interpretador/pilha-escopos-execucao';
 

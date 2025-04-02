@@ -177,14 +177,18 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             const valor = this.atribuir();
 
             if (expressao instanceof Variavel) {
-                const simbolo = expressao.simbolo;
-                return new Atribuir(this.hashArquivo, simbolo, valor);
-            } else if (expressao instanceof AcessoMetodoOuPropriedade) {
+                return new Atribuir(this.hashArquivo, expressao, valor);
+            } 
+            
+            if (expressao instanceof AcessoMetodoOuPropriedade) {
                 const get = expressao;
                 return new DefinirValor(this.hashArquivo, 0, get.objeto, get.simbolo, valor);
-            } else if (expressao instanceof AcessoIndiceVariavel) {
+            } 
+            
+            if (expressao instanceof AcessoIndiceVariavel) {
                 return new AtribuicaoPorIndice(this.hashArquivo, 0, expressao.entidadeChamada, expressao.indice, valor);
             }
+            
             this.erros.push(this.erro(igual, 'Tarefa de atribuição inválida'));
         }
 
@@ -721,10 +725,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
             const tipo = this.resolveTipo(this.simbolos[this.atual].tipo);
             const resolucaoTipo = this.resolveSimboloInterfaceParaTiposDadosInterface(tipo);
-            parametro.tipoDado = {
-                nome: this.simbolos[this.atual].lexema,
-                tipo: resolucaoTipo,
-            };
+            parametro.tipoDado = resolucaoTipo;
             this.avancarEDevolverAnterior();
             parametro.nome = this.simbolos[this.atual];
 
@@ -838,7 +839,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             'Esperado nome da função apos a declaração do tipo.'
         );
 
-        return new FuncaoDeclaracao(nomeFuncao, this.corpoDaFuncao(tipo), tipoRetorno);
+        return new FuncaoDeclaracao(nomeFuncao, this.corpoDaFuncao(tipo), tipoRetorno.tipo);
     }
 
     declaracaoChamaFuncao(): Chamada {
@@ -850,9 +851,9 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         let expressao = this.primario();
         this.consumir(tiposDeSimbolos.PARENTESE_ESQUERDO, 'Esperado parêntese esquerdo após `DOENTE`.');
 
-        const paramentros = [];
+        const parametros = [];
         while (!this.verificarTipoSimboloAtual(tiposDeSimbolos.PARENTESE_DIREITO)) {
-            paramentros.push(this.resolverDeclaracaoForaDeBloco());
+            parametros.push(this.resolverDeclaracaoForaDeBloco());
             if (this.verificarTipoSimboloAtual(tiposDeSimbolos.VIRGULA)) {
                 this.avancarEDevolverAnterior();
             }
@@ -861,7 +862,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         this.consumir(tiposDeSimbolos.PARENTESE_DIREITO, 'Esperado parêntese direito após lista de parâmetros.');
         this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado ponto e vírgula após a chamada de função.');
 
-        return new Chamada(declaracaoInicio.hashArquivo, expressao, null, paramentros);
+        return new Chamada(declaracaoInicio.hashArquivo, expressao, parametros);
     }
 
     resolverDeclaracaoForaDeBloco(): any {

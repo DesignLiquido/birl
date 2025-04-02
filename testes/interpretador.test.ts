@@ -8,13 +8,19 @@ describe('Interpretador', () => {
         let avaliadorSintatico: AvaliadorSintaticoBirl;
         let interpretador: InterpretadorBirl;
 
-        describe('Cenário de sucesso', () => {
-            beforeEach(() => {
-                lexador = new LexadorBirl();
-                avaliadorSintatico = new AvaliadorSintaticoBirl();
-                interpretador = new InterpretadorBirl(process.cwd());
-            });
+        let _saidas: string[] = [];
+        const funcaoSaida = (texto: string) => {
+            _saidas.push(texto);
+        }
 
+        beforeEach(() => {
+            _saidas = [];
+            lexador = new LexadorBirl();
+            avaliadorSintatico = new AvaliadorSintaticoBirl();
+            interpretador = new InterpretadorBirl(process.cwd(), funcaoSaida, funcaoSaida);
+        });
+
+        describe('Cenário de sucesso', () => {
             it.skip('Validando string no escreva', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW',

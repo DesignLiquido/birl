@@ -47,25 +47,18 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
     }
 
     visitarExpressaoDeAtribuicao(expressao: Atribuir) {
-        if (!this.variaveis.hasOwnProperty(expressao.simbolo.lexema)) {
-            this.diagnosticos.push({
-                simbolo: expressao.simbolo,
-                mensagem: `A variável ${expressao.simbolo.lexema} não foi declarada.`,
-                hashArquivo: expressao.hashArquivo,
-                linha: expressao.linha,
-                severidade: DiagnosticoSeveridade.ERRO,
-            });
+        const { alvo, valor } = expressao;
+        // Provavelmente o alvo é sempre `Variavel`
+        const alvoVariavel: Variavel = alvo as Variavel;
+
+        let variavel = this.variaveis[alvoVariavel.simbolo.lexema];
+        if (!variavel) {
+            this.adicionarDiagnostico(alvoVariavel.simbolo, `Variável ${alvoVariavel.simbolo.lexema} ainda não foi declarada.`);
             return Promise.resolve();
         }
 
-        if (this.variaveis[expressao.simbolo.lexema].imutavel) {
-            this.diagnosticos.push({
-                simbolo: expressao.simbolo,
-                mensagem: `Constante ${expressao.simbolo.lexema} não pode ser modificada.`,
-                hashArquivo: expressao.hashArquivo,
-                linha: expressao.linha,
-                severidade: DiagnosticoSeveridade.ERRO,
-            });
+        if (variavel.imutavel) {
+            this.adicionarDiagnostico(alvoVariavel.simbolo, `Constante ${alvoVariavel.simbolo.lexema} não pode ser modificada.`);
             return Promise.resolve();
         }
     }

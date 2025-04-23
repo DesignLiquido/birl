@@ -333,7 +333,7 @@ describe('Avaliador Sintático Birl', () => {
                 expect(retornoAvaliadorSintatico.declaracoes[0].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[0]).toBeInstanceOf(FuncaoDeclaracao);
                 const declaracoes = retornoAvaliadorSintatico.declaracoes[0] as FuncaoDeclaracao;
-                expect(declaracoes.tipoRetorno).toBe('MONSTRO');
+                expect(declaracoes.tipo).toBe('MONSTRO');
             });
 
             it('Sucesso - declaração - chamarFuncao - string', () => {

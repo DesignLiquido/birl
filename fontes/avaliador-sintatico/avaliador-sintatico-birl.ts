@@ -7,6 +7,7 @@ import {
     Chamada,
     DefinirValor,
     FuncaoConstruto,
+    Leia,
     Literal,
     Unario,
     Variavel,
@@ -21,7 +22,6 @@ import {
     Expressao,
     Fazer,
     FuncaoDeclaracao,
-    Leia,
     Para,
     Retorna,
     Se,
@@ -525,7 +525,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         return new Retorna(primeiroSimbolo, valor);
     }
 
-    protected validaTipoDeclaracaoLeia(caracteres: string): string {
+    protected validaTipoExpressaoLeia(caracteres: string): string {
         const tipoCaractere = caracteres.charAt(1);
 
         const tipos = {
@@ -549,7 +549,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         return tipos[tipoCaractere] || 'desconhecido';
     }
 
-    declaracaoLeia(): Leia {
+    expressaoLeia(): Leia {
         const primeiroSimbolo = this.consumir(tiposDeSimbolos.QUE, 'Esperado expressão `QUE` para ler valor.');
         this.consumir(tiposDeSimbolos.QUE, 'Esperado expressão `QUE` após `QUE` para ler valor.');
         this.consumir(tiposDeSimbolos.CE, 'Esperado expressão `CE` após `QUE` para ler valor.');
@@ -571,7 +571,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             'Esperado identificador após `&` para ler valor.'
         );
 
-        const tipo = this.validaTipoDeclaracaoLeia(textoOuSimbolo.literal);
+        const tipo = this.validaTipoExpressaoLeia(textoOuSimbolo.literal);
 
         this.consumir(
             tiposDeSimbolos.PARENTESE_DIREITO,
@@ -897,7 +897,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             case tiposDeSimbolos.VAMO:
                 return this.declaracaoContinua();
             case tiposDeSimbolos.QUE:
-                return this.declaracaoLeia();
+                return this.expressaoLeia();
             case tiposDeSimbolos.ELE:
                 return this.declaracaoSe();
             case tiposDeSimbolos.NEGATIVA:

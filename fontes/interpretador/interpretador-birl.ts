@@ -1,9 +1,9 @@
 import {
     Atribuir,
     Binario,
-    Comentario,
     Construto,
     FimPara,
+    Leia,
     Literal,
     Logico,
     Super,
@@ -14,6 +14,7 @@ import {
 import {
     Bloco,
     Classe,
+    Comentario,
     Const,
     Continua,
     Declaracao,
@@ -24,7 +25,6 @@ import {
     Expressao,
     Fazer,
     FuncaoDeclaracao,
-    Leia,
     Para,
     ParaCada,
     Retorna,
@@ -41,7 +41,7 @@ import {
     FuncaoPadrao,
     MetodoPrimitiva,
     ObjetoPadrao,
-} from '@designliquido/delegua/estruturas';
+} from '@designliquido/delegua/interpretador/estruturas';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
 import { ParametroInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
 import { ErroInterpretador } from '@designliquido/delegua/interfaces/erros/erro-interpretador';

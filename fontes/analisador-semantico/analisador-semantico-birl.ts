@@ -1,11 +1,11 @@
 import {
     Atribuir,
+    Leia,
     Variavel,
 } from '@designliquido/delegua/construtos';
 import {
     Declaracao,
     Expressao,
-    Leia,
     Retorna,
     Var
 } from '@designliquido/delegua/declaracoes';

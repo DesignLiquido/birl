@@ -1,6 +1,6 @@
 import { InterpretadorInterface } from '@designliquido/delegua';
-import { AcessoIndiceVariavel, Construto, Literal, Variavel } from '@designliquido/delegua/construtos';
-import { Declaracao, Leia, Para } from '@designliquido/delegua/declaracoes';
+import { AcessoIndiceVariavel, Construto, Leia, Literal, Variavel } from '@designliquido/delegua/construtos';
+import { Declaracao, Para } from '@designliquido/delegua/declaracoes';
 import { EspacoVariaveis } from '@designliquido/delegua/espaco-variaveis';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
 import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
@@ -202,7 +202,6 @@ export async function substituirValor(
 }
 
 export async function visitarExpressaoLeia(interpretador: InterpretadorInterface, expressao: Leia): Promise<any> {
-    // const mensagem = expressao.argumentos && expressao.argumentos[0] ? expressao.argumentos[0].valor : '> ';
     /**
      * Em Birl não se usa mensagem junto com o prompt, normalmente se usa um Escreva antes.
      */
@@ -221,16 +220,6 @@ export async function visitarExpressaoLeia(interpretador: InterpretadorInterface
 }
 
 export async function visitarExpressaoLiteral(expressao: Literal): Promise<any> {
-    // TODO(Ítalo): Essa lógica não me parece correta.
-    // Além disso, o `return` deveria ser com `Promise.resolve`.
-    /* if (expressao.valor === tiposDeSimbolos.ADICAO) {
-        return 1;
-    }
-
-    if (expressao.valor === tiposDeSimbolos.SUBTRACAO) {
-        return -1;
-    } */
-
     return Promise.resolve(expressao.valor);
 }
 

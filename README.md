@@ -2,6 +2,21 @@
 
 Nossa implementação do dialeto BIRL, usando TypeScript. 
 
+  <p align="center">
+    <img src="./recursos/imagens/badge-statements.svg" />
+    <img src="./recursos/imagens/badge-lines.svg" />
+    <img src="./recursos/imagens/badge-functions.svg" />
+    <img src="./recursos/imagens/badge-branches.svg" />
+    <a href="https://github.com/DesignLiquido/visualg/issues" target="_blank">
+      <img src="https://img.shields.io/github/issues/Designliquido/visualg" />
+    </a>
+    <a href="https://www.npmjs.com/package/@designliquido/visualg" target="_blank">
+      <img src="https://img.shields.io/npm/v/@designliquido/visualg" />
+    </a>
+    <img src="https://img.shields.io/npm/dw/@designliquido/visualg" />
+    <img src="https://img.shields.io/github/license/Designliquido/visualg" />
+  </p>
+
 ## Sobre este dialeto
 
 Este dialeto tenta implementar da forma mais fidedigna possível todos os comportamentos de execução de BIRL como foi implementado em [https://birl-language.github.io]. Basicamente, o mecanismo dessa linguagem é traduzir todos os comandos para C, fazer o deploy em um servidor na Heroku e executar. O problema é que a Heroku deixou de ser gratuita há algum tempo, e por causa disso a ferramenta nunca mais funcionou. A ideia do dialeto é puramente preservação e didática.

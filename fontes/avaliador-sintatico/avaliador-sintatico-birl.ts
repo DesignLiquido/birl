@@ -40,6 +40,22 @@ import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
  * Avaliador Sintático de BIRL
  */
 export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
+    // TODO: Remover após versão 0.44.2.
+    override consumir(tipo: string, mensagemDeErro: string): SimboloInterface {
+        if (this.verificarTipoSimboloAtual(tipo)) return this.avancarEDevolverAnterior();
+        let simboloErro: SimboloInterface = this.simbolos[this.atual];
+        if (this.simbolos.length === 0) {
+            simboloErro = {
+                hashArquivo: this.hashArquivo,
+                linha: 1
+            } as SimboloInterface;
+        } else if (this.atual >= this.simbolos.length) {
+            simboloErro = this.simbolos[this.simbolos.length - 1];
+        }
+
+        throw this.erro(simboloErro, mensagemDeErro);
+    }
+    
     private validarEscopoPrograma(): Declaracao[] {
         let declaracoes: Declaracao[] = [];
         this.validarSegmentoHoraDoShow();
@@ -62,7 +78,9 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             adicao = 0,
             subtracao = 0;
 
+        let ultimaLinha = 1;
         for (const simbolo of simbolos) {
+            ultimaLinha = simbolo.linha;
             if (simbolo.tipo === tiposDeSimbolos.IDENTIFICADOR) {
                 identificador++;
             } else if (simbolo.tipo === tiposDeSimbolos.ADICAO) {
@@ -74,6 +92,8 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
         if (identificador !== 1 || (adicao > 0 && subtracao > 0)) {
             this.erros.push({
+                hashArquivo: this.hashArquivo,
+                linha: ultimaLinha,
                 message: 'Erro: Combinação desconhecida de símbolos.',
                 name: 'ErroSintatico',
                 simbolo: simbolos[0],
@@ -83,15 +103,20 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
         if (adicao === 2) {
             return 'ADICAO';
-        } else if (subtracao === 2) {
+        } 
+        
+        if (subtracao === 2) {
             return 'SUBTRACAO';
         }
 
         this.erros.push({
+            hashArquivo: this.hashArquivo,
+            linha: ultimaLinha,
             message: 'Erro: Combinação desconhecida de símbolos.',
             name: 'ErroSintatico',
             simbolo: simbolos[0],
         });
+
         return;
     }
 

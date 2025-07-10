@@ -1,13 +1,13 @@
 import { Construto, Leia, Literal } from '@designliquido/delegua/construtos';
 import { Declaracao, Para, Retorna } from '@designliquido/delegua/declaracoes';
 import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
-import { InterpretadorComDepuracao } from '@designliquido/delegua/interpretador/interpretador-com-depuracao';
+import { InterpretadorBaseComDepuracao } from '@designliquido/delegua/interpretador/depuracao';
 import { InterpretadorInterface } from '@designliquido/delegua/interfaces';
 import { RetornoQuebra } from '@designliquido/delegua/quebras';
 
 import * as comum from './comum';
 
-export class InterpretadorBirlComDepuracao extends InterpretadorComDepuracao {
+export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao {
     constructor(diretorioBase: string, funcaoDeRetorno: Function = null, funcaoDeRetornoMesmaLinha: Function = null) {
         super(diretorioBase, funcaoDeRetorno, funcaoDeRetornoMesmaLinha);
     }

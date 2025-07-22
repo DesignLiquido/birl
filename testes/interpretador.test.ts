@@ -180,13 +180,13 @@ describe('Interpretador', () => {
 
             it('Sucesso - declaração - break', async () => {
                 const retornoLexador = lexador.mapear([
-                    'HORA DO SHOW \n',
-                    '   MONSTRO M;\n',
-                    '   MAIS QUERO MAIS (M = 0; M < 5; M++)\n',
-                    '       CE QUER VER ESSA PORRA? ("teste");\n',
-                    '       SAI FILHO DA PUTA;\n',
-                    '   BIRL\n',
-                    'BIRL\n',
+                    'HORA DO SHOW',
+                    '   MONSTRO M;',
+                    '   MAIS QUERO MAIS (M = 0; M < 5; M++)',
+                    '       CE QUER VER ESSA PORRA? ("teste");',
+                    '       SAI FILHO DA PUTA;',
+                    '   BIRL',
+                    'BIRL',
                 ], -1);
 
                 const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
@@ -310,13 +310,13 @@ describe('Interpretador', () => {
                 expect(retornoInterpretador.erros).toHaveLength(0);
             });
 
-            it('Sucesso - declaração - for - incremento - depois', async () => {
+            it('declaração - for - incremento - depois', async () => {
                 const retornoLexador = lexador.mapear([
-                    'HORA DO SHOW \n',
+                    'HORA DO SHOW',
                     '   MAIS QUERO MAIS (MONSTRO M = 0; M < 5; M++)',
-                    '       CE QUER VER ESSA PORRA? ("%d\n", &M);\n',
-                    '   BIRL\n',
-                    'BIRL\n',
+                    '       CE QUER VER ESSA PORRA? ("%d\n", &M);',
+                    '   BIRL',
+                    'BIRL',
                 ], -1);
 
                 const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
@@ -326,13 +326,13 @@ describe('Interpretador', () => {
                 expect(retornoInterpretador.erros).toHaveLength(0);
             });
 
-            it('Sucesso - declaração - for - incremento - antes', async () => {
+            it('declaração - for - incremento - antes', async () => {
                 const retornoLexador = lexador.mapear([
-                    'HORA DO SHOW \n',
+                    'HORA DO SHOW',
                     '   MAIS QUERO MAIS (MONSTRO M = 0; M < 5; ++M)',
-                    '       CE QUER VER ESSA PORRA? ("%d\n", &M);\n',
-                    '   BIRL\n',
-                    'BIRL\n',
+                    '       CE QUER VER ESSA PORRA? ("%d\n", &M);',
+                    '   BIRL',
+                    'BIRL',
                 ], -1);
 
                 const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
@@ -342,7 +342,7 @@ describe('Interpretador', () => {
                 expect(retornoInterpretador.erros).toHaveLength(0);
             });
 
-            it('Sucesso - declaração - if else', async () => {
+            it('declaração - if else', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   ELE QUE A GENTE QUER? (1 > 2)\n',

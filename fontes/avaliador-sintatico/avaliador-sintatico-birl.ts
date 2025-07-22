@@ -39,12 +39,14 @@ import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 /**
  * Avaliador Sintático de BIRL
  */
-export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {    
+export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
+    verificarQuebraLinha: boolean = true;
+
     private validarEscopoPrograma(): Declaracao[] {
         let declaracoes: Declaracao[] = [];
         this.validarSegmentoHoraDoShow();
 
-        while (!this.estaNoFinal()) {
+        while (!this.estaNoFinal() && this.simbolos[this.atual].tipo !== tiposDeSimbolos.BIRL) {
             const declaracaoVetor = this.resolverDeclaracaoForaDeBloco();
             if (Array.isArray(declaracaoVetor)) {
                 declaracoes = declaracoes.concat(declaracaoVetor);
@@ -105,23 +107,16 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     }
 
     validarSegmentoHoraDoShow(): void {
-        this.consumir(tiposDeSimbolos.HORA, 'Esperado expressão `HORA DO SHOW` para iniciar o programa');
-        this.consumir(tiposDeSimbolos.DO, 'Esperado expressão `HORA DO SHOW` para iniciar o programa');
-        this.consumir(tiposDeSimbolos.SHOW, 'Esperado expressão `HORA DO SHOW` para iniciar o programa');
+        this.consumir(tiposDeSimbolos.HORA, 'Esperado expressão `HORA DO SHOW` para iniciar o programa.');
+        this.consumir(tiposDeSimbolos.DO, 'Esperado expressão `HORA DO SHOW` para iniciar o programa.');
+        this.consumir(tiposDeSimbolos.SHOW, 'Esperado expressão `HORA DO SHOW` para iniciar o programa.');
+        this.consumir(tiposDeSimbolos.QUEBRA_LINHA, 'Esperado quebra de linha após expressão `HORA DO SHOW` para iniciar o programa.');
         this.blocos += 1;
     }
 
     validarSegmentoBirlFinal(): void {
-        this.regredirEDevolverAtual();
-        while (!this.verificarTipoSimboloAtual(tiposDeSimbolos.BIRL)) {
-            this.consumir(
-                tiposDeSimbolos.QUEBRA_LINHA,
-                'Esperado expressão `QUEBRA_LINHA` após a declaração de variáveis'
-            );
-            this.regredirEDevolverAtual();
-            this.regredirEDevolverAtual();
-        }
-        this.consumir(tiposDeSimbolos.BIRL, 'Esperado expressão `BIRL` para fechamento do programa');
+        this.consumir(tiposDeSimbolos.BIRL, 'Esperado expressão `BIRL` para fechamento do programa.');
+        this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.QUEBRA_LINHA);
         this.blocos -= 1;
     }
 
@@ -256,6 +251,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         );
 
         let declaracaoInicial: Variavel | Expressao | null | any[] = null;
+        this.verificarQuebraLinha = false;
 
         if (this.simbolos[this.atual].tipo === tiposDeSimbolos.IDENTIFICADOR) {
             const variavelLoop = this.consumir(
@@ -270,6 +266,9 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
                 tiposDeSimbolos.NUMERO,
                 'Esperado expressão `NUMERO` após `=` para iniciar o bloco `PARA`.'
             );
+
+            this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado expressão `;` antes da condição do `PARA`.');
+            
             declaracaoInicial = [
                 new Variavel(this.hashArquivo, variavelLoop),
                 new Literal(this.hashArquivo, Number(valor.linha), Number(valor.literal)),
@@ -283,8 +282,6 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             }
         }
 
-        this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado expressão `;` após a inicialização do `PARA`.');
-
         const condicao = this.resolverDeclaracaoForaDeBloco(); // condição de parada
 
         this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado expressão `;` após a condição do `PARA`.');
@@ -293,6 +290,8 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
         this.consumir(tiposDeSimbolos.PARENTESE_DIREITO, 'Esperado expressão `)` após a condição do `PARA`.');
         this.consumir(tiposDeSimbolos.QUEBRA_LINHA, 'Esperado expressão `QUEBRA_LINHA` após a condição do `PARA`.');
+
+        this.verificarQuebraLinha = true;
 
         const declaracoes = [];
 
@@ -469,6 +468,12 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
                 );
             }
         } while (this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.VIRGULA));
+
+        this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado ponto-e-vírgula após declaração de variáveis MONSTRO, MONSTRINHO ou MONSTRAO.');
+        if (this.verificarQuebraLinha) {
+            this.consumir(tiposDeSimbolos.QUEBRA_LINHA, 'Esperado quebra de linha após ponto-e-vírgula em declaração de variáveis MONSTRO, MONSTRINHO ou MONSTRAO.');
+        }
+        
         return inicializacoes;
     }
 
@@ -531,6 +536,8 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
         const valor = this.resolverDeclaracaoForaDeBloco();
 
+        this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado ponto-e-vírgula após BORA CUMPADE.');
+        this.consumir(tiposDeSimbolos.QUEBRA_LINHA, 'Esperado quebra de linha após ponto-e-vírgula depois de BORA CUMPADE.');
         return new Retorna(primeiroSimbolo, valor);
     }
 
@@ -586,6 +593,9 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             tiposDeSimbolos.PARENTESE_DIREITO,
             'Esperado parêntese direito após identificador para ler valor.'
         );
+
+        this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado ponto-e-vírgula após comando de leitura.');
+        this.consumir(tiposDeSimbolos.QUEBRA_LINHA, 'Esperado quebra de linha após ponto-e-vírgula em comando de leitura.');
 
         return new Leia(primeiroSimbolo, [
             new Variavel(this.hashArquivo, variavel),
@@ -869,7 +879,6 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         }
 
         this.consumir(tiposDeSimbolos.PARENTESE_DIREITO, 'Esperado parêntese direito após lista de parâmetros.');
-        this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado ponto e vírgula após a chamada de função.');
 
         return new Chamada(declaracaoInicio.hashArquivo, expressao, parametros);
     }
@@ -930,7 +939,6 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
                 return this.declaracaoEscreva();
             case tiposDeSimbolos.PONTO_E_VIRGULA:
             case tiposDeSimbolos.QUEBRA_LINHA:
-            case tiposDeSimbolos.BIRL:
                 this.avancarEDevolverAnterior();
                 return null;
             case tiposDeSimbolos.IDENTIFICADOR:
@@ -964,6 +972,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         this.erros = [];
         this.blocos = 0;
         this.atual = 0;
+        this.verificarQuebraLinha = true;
 
         this.simbolos = retornoLexador.simbolos;
         const declaracoes: Declaracao[] = this.validarEscopoPrograma();

@@ -16,7 +16,7 @@ describe('Avaliador Sintático Birl', () => {
         });
 
         describe('Cenários de sucesso', () => {
-            it('Sucesso - Ler da tela', () => {
+            it('Ler da tela', () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW',
                     '   MONSTRO X;',
@@ -31,7 +31,7 @@ describe('Avaliador Sintático Birl', () => {
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - Hello, World! Porra!', () => {
+            it('Hello, World! Porra!', () => {
                 const retornoLexador = lexador.mapear(
                     [
                         'HORA DO SHOW',
@@ -360,13 +360,13 @@ describe('Avaliador Sintático Birl', () => {
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
             });
 
-            it('Sucesso - declaração - chamarFuncao - numero', () => {
+            it('declaração - chamarFuncao - numero', () => {
                 const retornoLexador = lexador.mapear([
-                    'HORA DO SHOW \n',
-                    '   MONSTRO primeiro = 5;\n',
-                    '   MONSTRO segundo = 10;\n',
-                    '   MONSTRO resultado = AJUDA O MALUCO TA DOENTE SOMAR(primeiro, segundo);\n',
-                    'BIRL\n',
+                    'HORA DO SHOW',
+                    '   MONSTRO primeiro = 5;',
+                    '   MONSTRO segundo = 10;',
+                    '   MONSTRO resultado = AJUDA O MALUCO TA DOENTE SOMAR(primeiro, segundo);',
+                    'BIRL',
                 ], -1);
 
                 const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
@@ -387,7 +387,7 @@ describe('Avaliador Sintático Birl', () => {
                     avaliadorSintatico.analisar({ erros: [], simbolos: [] }, -1);
                 }).toThrow(
                     expect.objectContaining({
-                        message: 'Esperado expressão `HORA DO SHOW` para iniciar o programa',
+                        message: 'Esperado expressão `HORA DO SHOW` para iniciar o programa.',
                     })
                 );
             });

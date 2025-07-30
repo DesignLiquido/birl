@@ -32,7 +32,7 @@ import {
     Tente,
     Var,
 } from '@designliquido/delegua/declaracoes';
-import { EspacoVariaveis } from '@designliquido/delegua/espaco-variaveis';
+import { EspacoMemoria } from '@designliquido/delegua/interpretador/espaco-memoria';
 import {
     Chamavel,
     DescritorTipoClasse,
@@ -106,7 +106,7 @@ export class InterpretadorBirl extends InterpretadorBase {
         const escopoExecucao: EscopoExecucao = {
             declaracoes: [],
             declaracaoAtual: 0,
-            ambiente: new EspacoVariaveis(),
+            espacoMemoria: new EspacoMemoria(),
             finalizado: false,
             tipo: 'outro',
             emLacoRepeticao: false,
@@ -144,13 +144,13 @@ export class InterpretadorBirl extends InterpretadorBase {
      * atira a exceção daqui.
      * Isso é usado, por exemplo, em blocos tente ... pegue ... finalmente.
      * @param declaracoes Um vetor de declaracoes a ser executado.
-     * @param ambiente O ambiente de execução quando houver, como parâmetros, argumentos, etc.
+     * @param espacoMemoria O ambiente de execução quando houver, como parâmetros, argumentos, etc.
      */
-    async executarBloco(declaracoes: Declaracao[], ambiente?: EspacoVariaveis): Promise<any> {
+    async executarBloco(declaracoes: Declaracao[], espacoMemoria?: EspacoMemoria): Promise<any> {
         const escopoExecucao: EscopoExecucao = {
             declaracoes: declaracoes,
             declaracaoAtual: 0,
-            ambiente: ambiente || new EspacoVariaveis(),
+            espacoMemoria: espacoMemoria || new EspacoMemoria(),
             finalizado: false,
             tipo: 'outro',
             emLacoRepeticao: false,
@@ -791,49 +791,6 @@ export class InterpretadorBirl extends InterpretadorBase {
             this.resultadoInterpretador.push(this.paraTexto(resultado));
         }
         return resultado;
-    }
-
-    /**
-     * Executa o último escopo empilhado no topo na pilha de escopos do interpretador.
-     * Esse método pega exceções, mas apenas as devolve.
-     *
-     * O tratamento das exceções é feito de acordo com o bloco chamador.
-     * Por exemplo, em `tente ... pegue ... finalmente`, a exceção é capturada e tratada.
-     * Em outros blocos, pode ser desejável ter o erro em tela.
-     * @param manterAmbiente Se verdadeiro, ambiente do topo da pilha de escopo é copiado para o ambiente imediatamente abaixo.
-     * @returns O resultado da execução do escopo, se houver.
-     */
-    async executarUltimoEscopo(manterAmbiente = false): Promise<any> {
-        const ultimoEscopo = this.pilhaEscoposExecucao.topoDaPilha();
-        try {
-            let retornoExecucao: any;
-            for (
-                ;
-                !(retornoExecucao instanceof Quebra) && ultimoEscopo.declaracaoAtual < ultimoEscopo.declaracoes.length;
-                ultimoEscopo.declaracaoAtual++
-            ) {
-                retornoExecucao = await this.executar(ultimoEscopo.declaracoes[ultimoEscopo.declaracaoAtual]);
-            }
-
-            return retornoExecucao;
-        } catch (erro: any) {
-            const declaracaoAtual = ultimoEscopo.declaracoes[ultimoEscopo.declaracaoAtual];
-            this.erros.push({
-                erroInterno: erro,
-                linha: declaracaoAtual.linha,
-                hashArquivo: declaracaoAtual.hashArquivo,
-            });
-            return Promise.reject(erro);
-        } finally {
-            this.pilhaEscoposExecucao.removerUltimo();
-            if (manterAmbiente) {
-                const escopoAnterior = this.pilhaEscoposExecucao.topoDaPilha();
-                escopoAnterior.ambiente.valores = Object.assign(
-                    escopoAnterior.ambiente.valores,
-                    ultimoEscopo.ambiente.valores
-                );
-            }
-        }
     }
 
     async interpretar(declaracoes: Declaracao[], manterAmbiente?: boolean): Promise<RetornoInterpretador> {

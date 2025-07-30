@@ -71,7 +71,7 @@ export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao
         // Acha o primeiro escopo de função.
         const escopoFuncao = this.pilhaEscoposExecucao.obterEscopoPorTipo('funcao');
         if (escopoFuncao && escopoFuncao.idChamada !== undefined) {
-            escopoAtual.ambiente.resolucoesChamadas[escopoFuncao.idChamada] =
+            escopoAtual.espacoMemoria.resolucoesChamadas[escopoFuncao.idChamada] =
                 retorno && retorno.hasOwnProperty('valor') ? retorno.valor : retorno;
         }
 

@@ -1,7 +1,7 @@
 import { InterpretadorInterface } from '@designliquido/delegua';
 import { AcessoIndiceVariavel, Construto, Leia, Literal, Variavel } from '@designliquido/delegua/construtos';
 import { Declaracao, Para } from '@designliquido/delegua/declaracoes';
-import { EspacoVariaveis } from '@designliquido/delegua/espaco-variaveis';
+import { EspacoMemoria } from '@designliquido/delegua/interpretador/espaco-memoria';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
 import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
 import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
@@ -280,7 +280,7 @@ export async function interpretar(
     const escopoExecucao: EscopoExecucao = {
         declaracoes: declaracoes,
         declaracaoAtual: 0,
-        ambiente: new EspacoVariaveis(),
+        espacoMemoria: new EspacoMemoria(),
         finalizado: false,
         tipo: 'outro',
         emLacoRepeticao: false,

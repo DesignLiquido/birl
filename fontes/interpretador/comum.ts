@@ -1,10 +1,9 @@
-import { InterpretadorInterface } from '@designliquido/delegua';
+import { InterpretadorInterface, RetornoInterpretadorInterface } from '@designliquido/delegua';
 import { AcessoIndiceVariavel, Construto, Leia, Literal, Variavel } from '@designliquido/delegua/construtos';
 import { Declaracao, Para } from '@designliquido/delegua/declaracoes';
 import { EspacoMemoria } from '@designliquido/delegua/interpretador/espaco-memoria';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
 import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
-import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { ContinuarQuebra, Quebra, SustarQuebra } from '@designliquido/delegua/quebras';
 
 function converterTipoOuEstourarErro(valor: any, tipo: string) {
@@ -274,7 +273,7 @@ export async function interpretar(
     interpretador: InterpretadorInterface,
     declaracoes: Declaracao[],
     manterAmbiente?: boolean
-): Promise<RetornoInterpretador> {
+): Promise<RetornoInterpretadorInterface> {
     interpretador.erros = [];
 
     const escopoExecucao: EscopoExecucao = {
@@ -304,7 +303,7 @@ export async function interpretar(
         const retorno = {
             erros: interpretador.erros,
             resultado: (interpretador as any).resultadoInterpretador,
-        } as RetornoInterpretador;
+        } as RetornoInterpretadorInterface;
 
         (interpretador as any).resultadoInterpretador = [];
         return retorno;

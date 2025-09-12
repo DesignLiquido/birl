@@ -250,7 +250,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             'Esperado expressão `(` após `MAIS` para iniciar o bloco `PARA`.'
         );
 
-        let declaracaoInicial: Variavel | Expressao | null | any[] = null;
+        let declaracaoInicial: Declaracao | Declaracao[] = null;
         this.verificarQuebraLinha = false;
 
         if (this.simbolos[this.atual].tipo === tiposDeSimbolos.IDENTIFICADOR) {
@@ -269,10 +269,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
             this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado expressão `;` antes da condição do `PARA`.');
             
-            declaracaoInicial = [
-                new Variavel(this.hashArquivo, variavelLoop),
-                new Literal(this.hashArquivo, Number(valor.linha), Number(valor.literal)),
-            ];
+            declaracaoInicial = new Var(variavelLoop, new Literal(this.hashArquivo, Number(valor.linha), Number(valor.literal)));
         } else {
             const declaracaoVetor = this.resolverDeclaracaoForaDeBloco(); // inicialização da variável de controle
             if (Array.isArray(declaracaoVetor)) {

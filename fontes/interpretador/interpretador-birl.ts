@@ -43,11 +43,10 @@ import {
     ObjetoPadrao,
 } from '@designliquido/delegua/interpretador/estruturas';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
-import { ParametroInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
+import { ParametroInterface, RetornoInterpretadorInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
 import { ErroInterpretador } from '@designliquido/delegua/interfaces/erros/erro-interpretador';
 import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
 import { PilhaEscoposExecucaoInterface } from '@designliquido/delegua/interfaces/pilha-escopos-execucao-interface';
-import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { ContinuarQuebra, Quebra, RetornoQuebra, SustarQuebra } from '@designliquido/delegua/quebras';
 import { ArgumentoInterface } from '@designliquido/delegua/interpretador/argumento-interface';
 import { inferirTipoVariavel } from '@designliquido/delegua/inferenciador';
@@ -69,8 +68,6 @@ export class InterpretadorBirl extends InterpretadorBase {
 
     erros: ErroInterpretador[];
     declaracoes: Declaracao[];
-
-    resultadoInterpretador: Array<string> = [];
 
     regexInterpolacao = /\$\{([a-z_][\w]*)\}/gi;
 
@@ -199,7 +196,7 @@ export class InterpretadorBirl extends InterpretadorBase {
                 }
 
                 const valorAnteriorIncremento = valor;
-                this.pilhaEscoposExecucao.atribuirVariavel(expressao.operando.simbolo, ++valor);
+                this.pilhaEscoposExecucao.atribuirVariavel((expressao.operando as any).simbolo, ++valor);
                 return valorAnteriorIncremento;
             case tiposDeSimbolos.DECREMENTAR:
                 if (expressao.incidenciaOperador === 'ANTES') {
@@ -212,7 +209,7 @@ export class InterpretadorBirl extends InterpretadorBase {
                 }
 
                 const valorAnteriorDecremento = valor;
-                this.pilhaEscoposExecucao.atribuirVariavel(expressao.operando.simbolo, --valor);
+                this.pilhaEscoposExecucao.atribuirVariavel((expressao.operando as any).simbolo, --valor);
                 return valorAnteriorDecremento;
         }
 
@@ -583,8 +580,8 @@ export class InterpretadorBirl extends InterpretadorBase {
         for (let i = 0; i < declaracao.caminhosSeSenao.length; i++) {
             const atual = declaracao.caminhosSeSenao[i];
 
-            if (this.eVerdadeiro(await this.avaliar(atual.condicao))) {
-                return await this.executar(atual.caminho);
+            if (this.eVerdadeiro(await this.avaliar((atual as any).condicao))) {
+                return await this.executar((atual as any).caminho);
             }
         }
 
@@ -793,7 +790,7 @@ export class InterpretadorBirl extends InterpretadorBase {
         return resultado;
     }
 
-    async interpretar(declaracoes: Declaracao[], manterAmbiente?: boolean): Promise<RetornoInterpretador> {
+    async interpretar(declaracoes: Declaracao[], manterAmbiente?: boolean): Promise<RetornoInterpretadorInterface> {
         return comum.interpretar(this, declaracoes, manterAmbiente);
     }
 }

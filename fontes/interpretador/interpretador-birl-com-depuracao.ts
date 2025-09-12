@@ -1,8 +1,7 @@
 import { Construto, Leia, Literal } from '@designliquido/delegua/construtos';
 import { Declaracao, Para, Retorna } from '@designliquido/delegua/declaracoes';
-import { RetornoInterpretador } from '@designliquido/delegua/interfaces/retornos';
 import { InterpretadorBaseComDepuracao } from '@designliquido/delegua/interpretador/depuracao';
-import { InterpretadorInterface } from '@designliquido/delegua/interfaces';
+import { InterpretadorInterface, RetornoInterpretadorInterface } from '@designliquido/delegua/interfaces';
 import { RetornoQuebra } from '@designliquido/delegua/quebras';
 
 import * as comum from './comum';
@@ -82,7 +81,7 @@ export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao
         return comum.avaliarArgumentosEscreva(this, argumentos);
     }
 
-    async interpretar(declaracoes: Declaracao[], manterAmbiente?: boolean): Promise<RetornoInterpretador> {
+    async interpretar(declaracoes: Declaracao[], manterAmbiente?: boolean): Promise<RetornoInterpretadorInterface> {
         return comum.interpretar(this, declaracoes, manterAmbiente);
     }
 }

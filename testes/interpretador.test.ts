@@ -21,7 +21,7 @@ describe('Interpretador', () => {
         });
 
         describe('Cenário de sucesso', () => {
-            it.skip('Validando string no escreva', async () => {
+            it('Validando string no escreva', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW',
                     '   CE QUER VER ESSA PORRA? (1);',
@@ -29,8 +29,12 @@ describe('Interpretador', () => {
                 ], -1)
 
                 const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const resultado = await interpretador.interpretar(retornoAvaliadorSintatico.declaracoes);
 
-                expect(async () => await interpretador.interpretar(retornoAvaliadorSintatico.declaracoes)).toThrow(Error);
+                expect(resultado.erros).toHaveLength(1);
+                expect(resultado.erros[0]).toHaveProperty('erroInterno');
+                const erroInterno = resultado.erros[0].erroInterno;
+                expect(erroInterno.message).toBe('O primeiro argumento de Escreva precisa ser uma string.');
             })
 
             it('Sucesso - varias argumentos no escreva', async () => {

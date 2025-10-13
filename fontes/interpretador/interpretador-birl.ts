@@ -721,11 +721,6 @@ export class InterpretadorBirl extends InterpretadorBase {
         throw new Error('Método não implementado.');
     }
 
-    visitarDeclaracaoDefinicaoFuncao(declaracao: FuncaoDeclaracao) {
-        const funcao = new DeleguaFuncao(declaracao.simbolo.lexema, declaracao.funcao);
-        this.pilhaEscoposExecucao.definirVariavel(declaracao.simbolo.lexema, funcao);
-    }
-
     async visitarDeclaracaoClasse(declaracao: Classe): Promise<any> {
         throw new Error('Método não implementado.');
     }

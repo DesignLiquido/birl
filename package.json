@@ -37,7 +37,7 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "@designliquido/delegua": "^0.62.0",
+        "@designliquido/delegua": "^0.63.0",
         "lodash": "^4.17.21"
     }
 }

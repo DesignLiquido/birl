@@ -1051,14 +1051,14 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
     /**
      * Analisa as declarações e retorna os diagnósticos
      */
-    analisar(declaracoes: Declaracao[]): RetornoAnalisadorSemantico {
+    async analisar(declaracoes: Declaracao[]): Promise<RetornoAnalisadorSemantico> {
         // Inicializa o gerenciador de escopos
         this.gerenciadorEscopos = new GerenciadorEscopos();
         this.atual = 0;
         this.diagnosticos = [];
 
         while (this.atual < declaracoes.length) {
-            declaracoes[this.atual].aceitar(this);
+            await declaracoes[this.atual].aceitar(this);
             this.atual++;
         }
 

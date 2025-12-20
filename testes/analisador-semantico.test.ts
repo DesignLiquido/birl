@@ -15,7 +15,7 @@ describe('Analisador semântico', () => {
         });
 
         describe('Cenários de sucesso', () => {
-            it('Sucesso - Olá Mundo', () => {
+            it('Sucesso - Olá Mundo', async () => {
                 const retornoLexador = lexador.mapear(
                     [
                         'HORA DO SHOW',
@@ -26,12 +26,12 @@ describe('Analisador semântico', () => {
                     -1
                 );
                 const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
-                const retornoAnalisadorSemantico = analisadorSemantico.analisar(retornoAvaliadorSintatico.declaracoes);
+                const retornoAnalisadorSemantico = await analisadorSemantico.analisar(retornoAvaliadorSintatico.declaracoes);
 
                 expect(retornoAnalisadorSemantico).toBeTruthy();
                 expect(retornoAnalisadorSemantico.diagnosticos).toHaveLength(0);
             });
-            it('Sucesso - Verifica tipo LEIA', () => {
+            it('Sucesso - Verifica tipo LEIA', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW',
                     '   MONSTRO X;',
@@ -41,7 +41,7 @@ describe('Analisador semântico', () => {
                 ], -1);
 
                 const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
-                const retornoAnalisadorSemantico = analisadorSemantico.analisar(retornoAvaliadorSintatico.declaracoes);
+                const retornoAnalisadorSemantico = await analisadorSemantico.analisar(retornoAvaliadorSintatico.declaracoes);
 
                 expect(retornoAnalisadorSemantico).toBeTruthy();
                 expect(retornoAnalisadorSemantico.diagnosticos).toHaveLength(0);

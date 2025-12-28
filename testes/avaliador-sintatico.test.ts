@@ -16,7 +16,7 @@ describe('Avaliador Sintático Birl', () => {
         });
 
         describe('Cenários de sucesso', () => {
-            it('Ler da tela', () => {
+            it('Ler da tela', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW',
                     '   MONSTRO X;',
@@ -25,13 +25,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Hello, World! Porra!', () => {
+            it('Hello, World! Porra!', async () => {
                 const retornoLexador = lexador.mapear(
                     [
                         'HORA DO SHOW',
@@ -42,13 +42,13 @@ describe('Avaliador Sintático Birl', () => {
                     -1
                 );
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(2);
             });
 
-            it('Sucesso - Variavel - Numero', () => {
+            it('Sucesso - Variavel - Numero', async () => {
                 const retornoLexador = lexador.mapear(
                     [
                         'HORA DO SHOW \n',
@@ -60,13 +60,13 @@ describe('Avaliador Sintático Birl', () => {
                     -1
                 );
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - Variavel - String', () => {
+            it('Sucesso - Variavel - String', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   FRANGO FR = "testes";\n',
@@ -74,13 +74,13 @@ describe('Avaliador Sintático Birl', () => {
                     '   BORA CUMPADE 0; \n',
                     'BIRL \n',
                 ], -1);
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - Variavel - Float', () => {
+            it('Sucesso - Variavel - Float', async () => {
                 const retornoLexador = lexador.mapear(
                     [
                         'HORA DO SHOW \n',
@@ -92,13 +92,13 @@ describe('Avaliador Sintático Birl', () => {
                     -1
                 );
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - Variavel - short int', () => {
+            it('Sucesso - Variavel - short int', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  MONSTRINHO M1 = 1.03; \n',
@@ -107,13 +107,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - Variavel - long int', () => {
+            it('Sucesso - Variavel - long int', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  MONSTRAO M1 = 16666666; \n',
@@ -122,13 +122,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - Variavel - double', () => {
+            it('Sucesso - Variavel - double', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  TRAPEZIO DESCENDENTE TD = 0.37; \n',
@@ -137,13 +137,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - Variavel - unsigned char', () => {
+            it('Sucesso - Variavel - unsigned char', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     `  BICEPS FRANGO TD = "test"; \n`,
@@ -152,12 +152,12 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
             });
 
-            it('Sucesso - declaração - if', () => {
+            it('Sucesso - declaração - if', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   ELE QUE A GENTE QUER? (3 > 2)\n',
@@ -166,14 +166,14 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
                 expect(retornoAvaliadorSintatico.declaracoes[0].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[0]).toBeInstanceOf(Se);
             });
 
-            it('Sucesso - declaração - if else', () => {
+            it('Sucesso - declaração - if else', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   ELE QUE A GENTE QUER? (1 > 2)\n',
@@ -184,13 +184,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
                 expect(retornoAvaliadorSintatico.declaracoes[0].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[0]).toBeInstanceOf(Se);
             });
-            it('Sucesso - declaração - for - incremento', () => {
+            it('Sucesso - declaração - for - incremento', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MAIS QUERO MAIS (MONSTRO M = 0; M < 5; M++)',
@@ -199,14 +199,14 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
                 expect(retornoAvaliadorSintatico.declaracoes[0].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[0]).toBeInstanceOf(Para);
             });
 
-            it('Sucesso - declaração - for - decremento', () => {
+            it('Sucesso - declaração - for - decremento', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MAIS QUERO MAIS (MONSTRO M = 5; M > 0; M--)',
@@ -215,14 +215,14 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
                 expect(retornoAvaliadorSintatico.declaracoes[0].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[0]).toBeInstanceOf(Para);
             });
 
-            it('Sucesso - declaração - for - incremento - atribuição', () => {
+            it('Sucesso - declaração - for - incremento - atribuição', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO M;\n',
@@ -232,7 +232,7 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(2);
                 expect(retornoAvaliadorSintatico.declaracoes[1].assinaturaMetodo).toBe('<principal>');
@@ -242,7 +242,7 @@ describe('Avaliador Sintático Birl', () => {
                 expect(declaracao1.simbolo.lexema).toBe('M');
                 expect((retornoAvaliadorSintatico.declaracoes[1] as Para).corpo.declaracoes[0]).toBeInstanceOf(Escreva);
             });
-            it('Sucesso - declaração - for - incremento - atribuição', () => {
+            it('Sucesso - declaração - for - incremento - atribuição', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO M;\n',
@@ -252,7 +252,7 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(2);
                 expect(retornoAvaliadorSintatico.declaracoes[1].assinaturaMetodo).toBe('<principal>');
@@ -262,7 +262,7 @@ describe('Avaliador Sintático Birl', () => {
                 expect(declaracao1.simbolo.lexema).toBe('M');
                 expect((retornoAvaliadorSintatico.declaracoes[1] as Para).corpo.declaracoes[0]).toBeInstanceOf(Escreva);
             });
-            it('Sucesso - declaração - while', () => {
+            it('Sucesso - declaração - while', async () => {
                 const RetornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO X = 5;\n',
@@ -273,13 +273,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const RetornoAvaliadorSintatico = avaliadorSintatico.analisar(RetornoLexador, -1);
+                const RetornoAvaliadorSintatico = await avaliadorSintatico.analisar(RetornoLexador, -1);
                 expect(RetornoAvaliadorSintatico).toBeTruthy();
                 expect(RetornoAvaliadorSintatico.declaracoes).toHaveLength(2);
                 expect(RetornoAvaliadorSintatico.declaracoes[1].assinaturaMetodo).toBe('<principal>');
                 expect(RetornoAvaliadorSintatico.declaracoes[1]).toBeInstanceOf(Enquanto);
             });
-            it('Sucesso - declaração - break', () => {
+            it('Sucesso - declaração - break', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO M;\n',
@@ -290,13 +290,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(2);
                 expect(retornoAvaliadorSintatico.declaracoes[1].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[1]).toBeInstanceOf(Para);
             });
-            it('Sucesso - declaração - continue', () => {
+            it('Sucesso - declaração - continue', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO M;\n',
@@ -311,13 +311,13 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(2);
                 expect(retornoAvaliadorSintatico.declaracoes[1].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[1]).toBeInstanceOf(Para);
             });
-            it('Sucesso - declaração - declaracaoFuncao', () => {
+            it('Sucesso - declaração - declaracaoFuncao', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   OH O HOME AI PO(MONSTRO NOMEFUNCAO(MONSTRO primeiro, MONSTRO segundo))\n',
@@ -327,7 +327,7 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
                 expect(retornoAvaliadorSintatico.declaracoes[0].assinaturaMetodo).toBe('<principal>');
@@ -336,31 +336,31 @@ describe('Avaliador Sintático Birl', () => {
                 expect(declaracoes.tipo).toBe('MONSTRO');
             });
 
-            it('Sucesso - declaração - chamarFuncao - string', () => {
+            it('Sucesso - declaração - chamarFuncao - string', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   FRANGO resultado = AJUDA O MALUCO TA DOENTE SOMAR();\n',
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
             });
 
-            it('Sucesso - declaração - chamarFuncao - float', () => {
+            it('Sucesso - declaração - chamarFuncao - float', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   TRAPEZIO resultado = AJUDA O MALUCO TA DOENTE SOMAR();\n',
                     'BIRL\n',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(1);
             });
 
-            it('declaração - chamarFuncao - numero', () => {
+            it('declaração - chamarFuncao - numero', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW',
                     '   MONSTRO primeiro = 5;',
@@ -369,7 +369,7 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL',
                 ], -1);
 
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
                 expect(retornoAvaliadorSintatico).toBeTruthy();
                 expect(retornoAvaliadorSintatico.declaracoes).toHaveLength(3);
                 const declaracao3 = retornoAvaliadorSintatico.declaracoes[2] as Var;
@@ -379,54 +379,52 @@ describe('Avaliador Sintático Birl', () => {
             });
         });
         describe('Cenários de erro', () => {
-            it('Falha - Programa vazio', () => {
-                expect(() => avaliadorSintatico.analisar({ erros: [], simbolos: [] }, -1)).toThrow(
+            it('Falha - Programa vazio', async () => {
+                await expect(avaliadorSintatico.analisar({ erros: [], simbolos: [] }, -1)).rejects.toThrow(
                     ErroAvaliadorSintatico
                 );
-                expect(() => {
-                    avaliadorSintatico.analisar({ erros: [], simbolos: [] }, -1);
-                }).toThrow(
+                await expect(avaliadorSintatico.analisar({ erros: [], simbolos: [] }, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: 'Esperado expressão `HORA DO SHOW` para iniciar o programa.',
                     })
                 );
             });
 
-            it('Falha - declaração - variavel = "=" no lugar do identificador', () => {
+            it('Falha - declaração - variavel = "=" no lugar do identificador', async () => {
                 const retornoLexador = lexador.mapear(['HORA DO SHOW \n', '   MONSTRO =;\n', 'BIRL\n'], -1);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'MONSTRO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - variavel - sem identificador', () => {
+            it('Falha - declaração - variavel - sem identificador', async () => {
                 const retornoLexador = lexador.mapear(['HORA DO SHOW \n', '   MONSTRO \n', 'BIRL\n'], -1);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'MONSTRO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - Escreva - com falha na expressão', () => {
+            it('Falha - declaração - Escreva - com falha na expressão', async () => {
                 const retornoLexador = lexador.mapear(
                     ['HORA DO SHOW', '  CE QUER VER ESSA ? ("Hello, World! Porra!\n");', '  BORA CUMPADE 0;', 'BIRL'],
                     -1
                 );
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: 'Esperado expressão `PORRA` após `ESSA` para escrever mensagem.',
                     })
                 );
             });
 
-            it('Falha - declaração - Frango - sem identificador', () => {
+            it('Falha - declaração - Frango - sem identificador', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     "   FRANGO = 'testes';\n",
@@ -435,15 +433,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'FRANGO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - Trapezio - sem identificador', () => {
+            it('Falha - declaração - Trapezio - sem identificador', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  TRAPEZIO = 1.03; \n',
@@ -452,15 +450,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'TRAPEZIO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - short int - sem identificador', () => {
+            it('Falha - declaração - short int - sem identificador', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  MONSTRINHO = 1.03; \n',
@@ -469,15 +467,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'MONSTRINHO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - long int - sem identificador', () => {
+            it('Falha - declaração - long int - sem identificador', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  MONSTRAO = 16666666; \n',
@@ -486,15 +484,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'MONSTRAO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - double - sem identificador', () => {
+            it('Falha - declaração - double - sem identificador', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  TRAPEZIO DESCENDENTE = 0.37; \n',
@@ -503,15 +501,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'TRAPEZIO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - unsigned char - sem identificador', () => {
+            it('Falha - declaração - unsigned char - sem identificador', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     `  BICEPS FRANGO = 'test'; \n`,
@@ -520,15 +518,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado identificador após palavra reservada 'FRANGO'.",
                     })
                 );
             });
 
-            it('Falha - declaração - if - sem expressão', () => {
+            it('Falha - declaração - if - sem expressão', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   ELE QUE A GENTE QUER? ()\n',
@@ -537,10 +535,10 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
             });
 
-            it('Falha - declaração - if - sem bloco e sem expressão', () => {
+            it('Falha - declaração - if - sem bloco e sem expressão', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   ELE QUE A GENTE QUER? ()\n',
@@ -551,10 +549,10 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
             });
 
-            it('Falha - declaração - for - sem expressão', () => {
+            it('Falha - declaração - for - sem expressão', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MAIS QUERO MAIS ( ; ; )\n',
@@ -563,15 +561,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
-                        message: 'Esperado expressão `;` após a condição do `PARA`.',
+                        message: 'Esperado expressão.',
                     })
                 );
             });
 
-            it('Falha - declaração - for - sem bloco e sem expressão', () => {
+            it('Falha - declaração - for - sem bloco e sem expressão', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MAIS QUERO MAIS ()',
@@ -579,10 +577,10 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
             });
 
-            it('Falha - declaração - for - sem incremento e condição', () => {
+            it('Falha - declaração - for - sem incremento e condição', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO M;\n',
@@ -592,10 +590,10 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
             });
 
-            it('Falha - declaração - while - sem expressão', () => {
+            it('Falha - declaração - while - sem expressão', async () => {
                 const RetornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO X = 5;\n',
@@ -606,10 +604,10 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(RetornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(RetornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
             });
 
-            it('Falha - declaração - declaracao - sem nome de funcão', () => {
+            it('Falha - declaração - declaracao - sem nome de funcão', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   OH O HOME AI PO(MONSTRO (MONSTRO primeiro, MONSTRO segundo)\n',
@@ -619,15 +617,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: 'Esperado nome da função apos a declaração do tipo.',
                     })
                 );
             });
 
-            it('Falha - declaração - declaracao - sem declaração', () => {
+            it('Falha - declaração - declaracao - sem declaração', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   OH O HOME AI PO(MONSTRO(MONSTRO primeiro, MONSTRO segundo))\n',
@@ -637,15 +635,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: 'Esperado nome da função apos a declaração do tipo.',
                     })
                 );
             });
 
-            it('Falha - declaração - chamarFuncao - sem identificador', () => {
+            it('Falha - declaração - chamarFuncao - sem identificador', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '   MONSTRO primeiro = 5;\n',
@@ -654,15 +652,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL\n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(ErroAvaliadorSintatico);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(ErroAvaliadorSintatico);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Esperado ')' após a expressão.",
                     })
                 );
             });
 
-            it('Falha - declaração - Variavel - numero recebendo string', () => {
+            it('Falha - declaração - Variavel - numero recebendo string', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  MONSTRINHO M1 = "Teste"; \n',
@@ -671,15 +669,15 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(Error);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(Error);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: 'Simbolo passado para inicialização de variável do tipo MONSTRINHO não é válido.',
                     })
                 );
             });
 
-            it('Falha - declaração - Variavel - string recebendo numero', () => {
+            it('Falha - declaração - Variavel - string recebendo numero', async () => {
                 const retornoLexador = lexador.mapear([
                     'HORA DO SHOW \n',
                     '  FRANGO M1 = 1; \n',
@@ -688,8 +686,8 @@ describe('Avaliador Sintático Birl', () => {
                     'BIRL \n',
                 ], -1);
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(Error);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(Error);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message:
                             'Erro ao declarar variável do tipo texto. Verifique se esta atribuindo um valor do tipo texto.',
@@ -697,7 +695,7 @@ describe('Avaliador Sintático Birl', () => {
                 );
             });
 
-            it('Falha - Variavel - Float - Recebendo string', () => {
+            it('Falha - Variavel - Float - Recebendo string', async () => {
                 const retornoLexador = lexador.mapear(
                     [
                         'HORA DO SHOW \n',
@@ -709,8 +707,8 @@ describe('Avaliador Sintático Birl', () => {
                     -1
                 );
 
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(Error);
-                expect(() => avaliadorSintatico.analisar(retornoLexador, -1)).toThrow(
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(Error);
+                await expect(avaliadorSintatico.analisar(retornoLexador, -1)).rejects.toThrow(
                     expect.objectContaining({
                         message: "Simbolo passado para inicialização de variável do tipo 'TRAPEZIO' não é válido.",
                     })

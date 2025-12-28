@@ -128,7 +128,7 @@ export async function avaliarArgumentosEscreva(
 }
 
 export async function resolverQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
-    const stringOriginal: string = texto.valor;
+    const stringOriginal: string = String(texto.valor);
     const regex = /%[a-zA-Z]/g;
 
     const matches = stringOriginal.match(regex);

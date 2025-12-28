@@ -33,7 +33,7 @@ describe('Interpretador com Depuração (BIRL)', () => {
                     '   BORA CUMPADE? 0; \n',
                     'BIRL \n',
                 ], -1);
-                const retornoAvaliadorSintatico = avaliadorSintatico.analisar(retornoLexador, -1);
+                const retornoAvaliadorSintatico = await avaliadorSintatico.analisar(retornoLexador, -1);
 
                 let execucaoFinalizada: boolean = false;
                 interpretador.finalizacaoDaExecucao = () => {

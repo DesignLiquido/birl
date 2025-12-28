@@ -774,7 +774,7 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
             this.marcarVariaveisUsadasEmExpressao(argumento);
 
             if (argumento instanceof Literal && argumento.tipo === 'texto') {
-                this.verificarInterpolacaoTexto(argumento.valor, argumento);
+                this.verificarInterpolacaoTexto(String(argumento.valor), argumento);
             }
 
             if (argumento instanceof Variavel) {

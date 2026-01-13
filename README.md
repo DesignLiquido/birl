@@ -7,14 +7,14 @@ Nossa implementação do dialeto BIRL, usando TypeScript.
     <img src="./recursos/imagens/badge-lines.svg" />
     <img src="./recursos/imagens/badge-functions.svg" />
     <img src="./recursos/imagens/badge-branches.svg" />
-    <a href="https://github.com/DesignLiquido/visualg/issues" target="_blank">
-      <img src="https://img.shields.io/github/issues/Designliquido/visualg" />
+    <a href="https://github.com/DesignLiquido/birl/issues" target="_blank">
+      <img src="https://img.shields.io/github/issues/Designliquido/birl" />
     </a>
-    <a href="https://www.npmjs.com/package/@designliquido/visualg" target="_blank">
-      <img src="https://img.shields.io/npm/v/@designliquido/visualg" />
+    <a href="https://www.npmjs.com/package/@designliquido/birl" target="_blank">
+      <img src="https://img.shields.io/npm/v/@designliquido/birl" />
     </a>
-    <img src="https://img.shields.io/npm/dw/@designliquido/visualg" />
-    <img src="https://img.shields.io/github/license/Designliquido/visualg" />
+    <img src="https://img.shields.io/npm/dw/@designliquido/birl" />
+    <img src="https://img.shields.io/github/license/Designliquido/birl" />
   </p>
 
 ## Sobre este dialeto

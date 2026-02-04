@@ -44,7 +44,7 @@ import {
 } from '@designliquido/delegua/interpretador/estruturas';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
 import { ParametroInterface, RetornoInterpretadorInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
-import { ErroInterpretador } from '@designliquido/delegua/interfaces/erros/erro-interpretador';
+import { ErroInterpretadorInterface } from '@designliquido/delegua/interfaces/erros/erro-interpretador-interface';
 import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
 import { PilhaEscoposExecucaoInterface } from '@designliquido/delegua/interfaces/pilha-escopos-execucao-interface';
 import { ContinuarQuebra, Quebra, RetornoQuebra, SustarQuebra } from '@designliquido/delegua/quebras';
@@ -66,7 +66,7 @@ export class InterpretadorBirl extends InterpretadorBase {
     pilhaEscoposExecucao: PilhaEscoposExecucaoInterface;
     interfaceEntradaSaida: any;
 
-    erros: ErroInterpretador[];
+    erros: ErroInterpretadorInterface[];
     declaracoes: Declaracao[];
 
     regexInterpolacao = /\$\{([a-z_][\w]*)\}/gi;

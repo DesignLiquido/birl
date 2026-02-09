@@ -417,7 +417,7 @@ export class InterpretadorBirl extends InterpretadorBase {
                 parametros = entidadeChamada.declaracao.parametros;
             } else if (entidadeChamada instanceof DescritorTipoClasse) {
                 parametros = entidadeChamada.metodos.inicializacao
-                    ? entidadeChamada.metodos.inicializacao.declaracao.parametros
+                    ? (entidadeChamada.metodos.inicializacao as DeleguaFuncao).declaracao.parametros
                     : [];
             } else {
                 parametros = [];

@@ -929,7 +929,7 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
      * Visita expressão retornar
      */
     visitarExpressaoRetornar(declaracao: Retorna): Promise<RetornoQuebra> {
-        return Promise.resolve(null);
+        return Promise.resolve(null as any);
     }
 
     /**
@@ -942,7 +942,7 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
             // Verifica se já existe um erro associado à variável
             const temErro = this.diagnosticos.some(
                 (d) =>
-                    d.severidade === DiagnosticoSeveridade.ERRO && d.simbolo.lexema === variavel.nome
+                    d.severidade === DiagnosticoSeveridade.ERRO && d.simbolo?.lexema === variavel.nome
             );
 
             // Se a variável já tem um erro associado, não emitir aviso de não usada

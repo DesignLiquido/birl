@@ -238,7 +238,7 @@ describe('Avaliador Sintático Birl', () => {
                 expect(retornoAvaliadorSintatico.declaracoes[1].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[1]).toBeInstanceOf(Para);
                 const declaracao1 = retornoAvaliadorSintatico.declaracoes[0] as Var;
-                expect(declaracao1.inicializador.valor).toBe(0);
+                expect(declaracao1.inicializador!.valor).toBe(0);
                 expect(declaracao1.simbolo.lexema).toBe('M');
                 expect((retornoAvaliadorSintatico.declaracoes[1] as Para).corpo.declaracoes[0]).toBeInstanceOf(Escreva);
             });
@@ -258,7 +258,7 @@ describe('Avaliador Sintático Birl', () => {
                 expect(retornoAvaliadorSintatico.declaracoes[1].assinaturaMetodo).toBe('<principal>');
                 expect(retornoAvaliadorSintatico.declaracoes[1]).toBeInstanceOf(Para);
                 const declaracao1 = retornoAvaliadorSintatico.declaracoes[0] as Var;
-                expect(declaracao1.inicializador.valor).toBe(0);
+                expect(declaracao1.inicializador!.valor).toBe(0);
                 expect(declaracao1.simbolo.lexema).toBe('M');
                 expect((retornoAvaliadorSintatico.declaracoes[1] as Para).corpo.declaracoes[0]).toBeInstanceOf(Escreva);
             });

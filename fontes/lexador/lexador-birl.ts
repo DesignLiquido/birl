@@ -185,7 +185,7 @@ export class LexadorBirl extends LexadorBaseLinhaUnica {
                 break;
 
             case '\n':
-                this.adicionarSimbolo(tiposDeSimbolos.QUEBRA_LINHA, null, null);
+                this.adicionarSimbolo(tiposDeSimbolos.QUEBRA_LINHA, '', null);
                 this.avancar();
                 this.linha++;
                 break;
@@ -212,19 +212,19 @@ export class LexadorBirl extends LexadorBaseLinhaUnica {
     }
 
     InjetaUmItemDentroDaLista(item: string, posicao: number): string[] {
-        let codigoComeco: string[];
-        let codigoPosPosição: string[];
+        const codigoComeco: string[] = [];
+        const codigoPosPosição: string[] = [];
 
         for (let i in this.codigo as any) {
             if (Number(i) === posicao) {
                 let iterador: number = Number(i);
-                while (iterador <= this.codigo.length) {
+                while (iterador < this.codigo.length) {
                     codigoPosPosição.push(this.codigo[iterador]);
                     iterador += 1;
                 }
                 break;
             }
-            codigoComeco.push(this.codigo[i]);
+            codigoComeco.push(this.codigo[Number(i)]);
         }
 
         return [...codigoComeco, ...codigoPosPosição];

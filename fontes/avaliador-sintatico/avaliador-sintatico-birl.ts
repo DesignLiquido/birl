@@ -266,7 +266,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             'Esperado expressão `(` após `MAIS` para iniciar o bloco `PARA`.'
         );
 
-        let declaracaoInicial: Declaracao | Declaracao[] = null;
+        let declaracaoInicial!: Declaracao | Declaracao[];
         this.verificarQuebraLinha = false;
 
         if (this.simbolos[this.atual].tipo === tiposDeSimbolos.IDENTIFICADOR) {
@@ -435,9 +435,9 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             return this.consumir(tiposDeSimbolos.MONSTRAO, '');
         } 
 
-        this.erros.push(
-            this.erro(this.simbolos[this.atual], 'Simbolo referente a inteiro não especificado.')
-        );
+        const erro = this.erro(this.simbolos[this.atual], 'Simbolo referente a inteiro não especificado.');
+        this.erros.push(erro);
+        throw erro;
     }
 
     async declaracaoInteiros(): Promise<Var[]> {
@@ -559,7 +559,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     protected validarTipoExpressaoLeia(caracteres: string): string {
         const tipoCaractere = caracteres.charAt(1);
 
-        const tipos = {
+        const tipos: Record<string, string> = {
             d: 'número',
             i: 'número',
             u: 'número',
@@ -708,7 +708,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             });
         }
 
-        let caminhoSenao = null;
+        let caminhoSenao: Bloco | undefined;
 
         if (this.verificarTipoSimboloAtual(tiposDeSimbolos.NAO)) {
             this.consumirSenao();
@@ -776,20 +776,20 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     async corpoDaFuncao(tipo: string): Promise<FuncaoConstruto> {
         const parenteseEsquerdo = this.consumir(tiposDeSimbolos.PARENTESE_ESQUERDO, `Esperado '(' após o nome ${tipo}`);
 
-        let paramentros = [];
+        let paramentros: ParametroInterface[] = [];
         if (!this.verificarTipoSimboloAtual(tiposDeSimbolos.PARENTESE_DIREITO)) {
             paramentros = this.logicaComumParamentros();
         }
         this.consumir(tiposDeSimbolos.PARENTESE_DIREITO, "Esperado ')' após parâmetros.");
         this.consumir(tiposDeSimbolos.PARENTESE_DIREITO, "Esperado ')' após parâmetros.");
 
-        let corpo = [];
+        let corpo: Declaracao[] = [];
 
         do {
             const declaracaoVetor = await this.resolverDeclaracaoForaDeBloco();
             if (Array.isArray(declaracaoVetor)) {
-                corpo = corpo.concat(declaracaoVetor);
-            } else {
+                corpo.push(...declaracaoVetor.filter((declaracao): declaracao is Declaracao => Boolean(declaracao)));
+            } else if (declaracaoVetor) {
                 corpo.push(declaracaoVetor);
             }
         } while (![tiposDeSimbolos.BIRL].includes(this.simbolos[this.atual].tipo));
@@ -903,13 +903,10 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         switch (simboloAtual.tipo) {
             case tiposDeSimbolos.INCREMENTAR:
             case tiposDeSimbolos.DECREMENTAR:
-                let adicionaOuSubtrai;
-                if ([tiposDeSimbolos.INCREMENTAR, tiposDeSimbolos.DECREMENTAR].includes(simboloAtual.tipo)) {
-                    adicionaOuSubtrai = this.consumir(
-                        tiposDeSimbolos[simboloAtual.tipo],
-                        'Esperado expressão `INCREMENTAR` ou `DECREMENTAR`.'
-                    );
-                }
+                const adicionaOuSubtrai = this.consumir(
+                    simboloAtual.tipo,
+                    'Esperado expressão `INCREMENTAR` ou `DECREMENTAR`.'
+                );
                 if (this.verificarTipoSimboloAtual(tiposDeSimbolos.IDENTIFICADOR)) {
                     const identificador = this.consumir(
                         tiposDeSimbolos.IDENTIFICADOR,

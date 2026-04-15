@@ -1,9 +1,14 @@
 {
+    "extends": "./tsconfig.json",
     "compilerOptions": {
         "baseUrl": ".",
+        "rootDir": ".",
+        "types": ["jest", "node"],
+        "ignoreDeprecations": "6.0",
         "paths": {
             "@designliquido/delegua": ["node_modules/@designliquido/delegua/fontes"],
             "@designliquido/delegua/*": ["node_modules/@designliquido/delegua/fontes/*"]
         }
-    }
+    },
+    "include": ["fontes/**/*.ts", "testes/**/*.ts", "jest.config.ts"]
 }

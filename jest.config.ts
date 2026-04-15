@@ -7,16 +7,14 @@ export default async (): Promise<Config.InitialOptions> => {
         modulePathIgnorePatterns: ['<rootDir>/dist/'],
         preset: 'ts-jest',
         testEnvironment: 'node',
-        coverageReporters: ['json-summary', 'lcov', 'text', 'text-summary']
-        // TODO: Até então não conseguimos fazer funcionar.
-        // Mantido aqui caso seja útil no futuro.
-        /* transform: {
+        coverageReporters: ['json-summary', 'lcov', 'text', 'text-summary'],
+        transform: {
             '^.+\\.ts$': [
                 'ts-jest',
                 {
                     tsconfig: 'tsconfig.test.json'
                 },
             ]
-        } */
+        }
     };
 };

@@ -60,8 +60,8 @@ import * as comum from './comum';
 export class InterpretadorBirl extends InterpretadorBase {
     diretorioBase: any;
 
-    funcaoDeRetorno: Function = null;
-    funcaoDeRetornoMesmaLinha: Function = null;
+    funcaoDeRetorno: Function = console.log;
+    funcaoDeRetornoMesmaLinha: Function = process.stdout.write.bind(process.stdout);
 
     pilhaEscoposExecucao: PilhaEscoposExecucaoInterface;
     interfaceEntradaSaida: any;
@@ -89,7 +89,11 @@ export class InterpretadorBirl extends InterpretadorBase {
         '%p': 'texto',
     };
 
-    constructor(diretorioBase: string, funcaoDeRetorno: Function = null, funcaoDeRetornoMesmaLinha: Function = null) {
+    constructor(
+        diretorioBase: string,
+        funcaoDeRetorno?: Function,
+        funcaoDeRetornoMesmaLinha?: Function
+    ) {
         super(diretorioBase, false, funcaoDeRetorno, funcaoDeRetornoMesmaLinha);
         this.diretorioBase = diretorioBase;
 
@@ -429,7 +433,7 @@ export class InterpretadorBirl extends InterpretadorBase {
             if (argumentos.length < aridade) {
                 const diferenca = aridade - argumentos.length;
                 for (let i = 0; i < diferenca; i++) {
-                    argumentos.push(null);
+                    argumentos.push({ nome: null, valor: null });
                 }
             } else {
                 if (
@@ -448,7 +452,7 @@ export class InterpretadorBirl extends InterpretadorBase {
             if (entidadeChamada instanceof FuncaoPadrao) {
                 try {
                     return entidadeChamada.chamar(
-                        undefined,
+                        this,
                         argumentos.map((a) => (a !== null && a.hasOwnProperty('valor') ? a.valor : a)),
                         expressao.entidadeChamada.simbolo
                     );
@@ -577,15 +581,16 @@ export class InterpretadorBirl extends InterpretadorBase {
         }
 
         //  @todo: Verificar se é necessário avaliar o caminho Senão.
-        for (let i = 0; i < declaracao.caminhosSeSenao.length; i++) {
-            const atual = declaracao.caminhosSeSenao[i];
+        const caminhosSeSenao = declaracao.caminhosSeSenao || [];
+        for (let i = 0; i < caminhosSeSenao.length; i++) {
+            const atual = caminhosSeSenao[i];
 
             if (this.eVerdadeiro(await this.avaliar((atual as any).condicao))) {
                 return await this.executar((atual as any).caminho);
             }
         }
 
-        if (declaracao.caminhoSenao !== null) {
+        if (declaracao.caminhoSenao) {
             return await this.executar(declaracao.caminhoSenao);
         }
 
@@ -641,7 +646,7 @@ export class InterpretadorBirl extends InterpretadorBase {
         return comum.substituirValor(stringOriginal, novoValor, simboloTipo);
     }
 
-    async resolverQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
+    async resolverQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray | null> {
         return comum.resolverQuantidadeDeInterpolacoes(texto);
     }
 

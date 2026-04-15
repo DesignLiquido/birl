@@ -7,8 +7,16 @@ import { RetornoQuebra } from '@designliquido/delegua/quebras';
 import * as comum from './comum';
 
 export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao {
-    constructor(diretorioBase: string, funcaoDeRetorno: Function = null, funcaoDeRetornoMesmaLinha: Function = null) {
-        super(diretorioBase, funcaoDeRetorno, funcaoDeRetornoMesmaLinha);
+    constructor(
+        diretorioBase: string,
+        funcaoDeRetorno?: Function,
+        funcaoDeRetornoMesmaLinha?: Function
+    ) {
+        super(
+            diretorioBase,
+            funcaoDeRetorno || console.log,
+            funcaoDeRetornoMesmaLinha || process.stdout.write.bind(process.stdout)
+        );
     }
 
     async atribuirVariavel(
@@ -20,7 +28,7 @@ export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao
         return comum.atribuirVariavel(interpretador, expressao, valor, tipo);
     }
 
-    async resolverQuantidadeDeInterpolacoes(expressao: Literal): Promise<RegExpMatchArray> {
+    async resolverQuantidadeDeInterpolacoes(expressao: Literal): Promise<RegExpMatchArray | null> {
         return comum.resolverQuantidadeDeInterpolacoes(expressao);
     }
 

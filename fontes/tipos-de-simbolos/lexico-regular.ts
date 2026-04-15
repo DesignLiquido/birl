@@ -1,4 +1,4 @@
-export default {
+const tiposDeSimbolos: Record<string, string> = {
     // Palavras reservadas
     A: 'A',
     AI: 'AI',
@@ -98,3 +98,5 @@ export default {
     // SINTAXE BIRL
     PONTEIRO: 'PONTEIRO',
 };
+
+export default tiposDeSimbolos;

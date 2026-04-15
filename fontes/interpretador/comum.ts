@@ -84,7 +84,7 @@ export async function avaliarArgumentosEscreva(
     argumentos: Construto[]
 ): Promise<string> {
     let formatoTexto: string = '';
-    let quantidadeInterpolacoes: RegExpMatchArray;
+    let quantidadeInterpolacoes: RegExpMatchArray | null;
 
     if (argumentos.length < 1) {
         throw new Error('Escreva precisa de pelo menos um argumento.');
@@ -127,7 +127,7 @@ export async function avaliarArgumentosEscreva(
     return formatoTexto.trimEnd();
 }
 
-export async function resolverQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray> {
+export async function resolverQuantidadeDeInterpolacoes(texto: Literal): Promise<RegExpMatchArray | null> {
     const stringOriginal: string = String(texto.valor);
     const regex = /%[a-zA-Z]/g;
 
@@ -223,7 +223,7 @@ export async function visitarExpressaoLiteral(expressao: Literal): Promise<any> 
 }
 
 export async function visitarDeclaracaoPara(interpretador: InterpretadorInterface, declaracao: Para): Promise<any> {
-    if (declaracao.inicializador !== null) {
+    if (declaracao.inicializador != null) {
         if (declaracao.inicializador instanceof Array) {
             if (declaracao.inicializador[0] instanceof Variavel) {
                 const valor = await interpretador.avaliar(declaracao.inicializador[1]);
@@ -261,7 +261,7 @@ export async function visitarDeclaracaoPara(interpretador: InterpretadorInterfac
             return Promise.reject(erro);
         }
 
-        if (declaracao.incrementar !== null) {
+        if (declaracao.incrementar != null) {
             await interpretador.avaliar(declaracao.incrementar);
         }
     }

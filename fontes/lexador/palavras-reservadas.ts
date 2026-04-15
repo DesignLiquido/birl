@@ -1,6 +1,6 @@
 import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 
-export const palavrasReservadas = {
+export const palavrasReservadas: Record<string, string> = {
     a: tiposDeSimbolos.A,
     ai: tiposDeSimbolos.AI,
     ajuda: tiposDeSimbolos.AJUDA,

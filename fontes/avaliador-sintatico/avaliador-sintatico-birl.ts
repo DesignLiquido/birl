@@ -89,8 +89,8 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
         if (adicao === 2) {
             return 'ADICAO';
-        } 
-        
+        }
+
         if (subtracao === 2) {
             return 'SUBTRACAO';
         }
@@ -156,7 +156,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             return await this.declaracaoChamadaFuncao();
         }
 
-        throw this.erro(this.simbolos[this.atual], 'Esperado expressão.');
+        throw this.erro(this.simbolos[this.atual] ?? this.simbolos[this.atual - 1], 'Esperado expressão.');
     }
 
     async chamar(): Promise<Construto> {
@@ -166,7 +166,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             if (this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.PARENTESE_ESQUERDO)) {
                 expressao = await this.finalizarChamada(expressao);
             } else if (this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.INCREMENTAR) ||
-                       this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.DECREMENTAR)) {
+                this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.DECREMENTAR)) {
                 // Postfix increment/decrement
                 const operador = this.simboloAnterior();
                 expressao = new Unario(this.hashArquivo, operador, expressao, 'DEPOIS');
@@ -199,16 +199,16 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
 
             if (expressao instanceof Variavel) {
                 return new Atribuir(this.hashArquivo, expressao, valor);
-            } 
-            
+            }
+
             if (expressao instanceof AcessoMetodoOuPropriedade) {
                 return new DefinirValor(this.hashArquivo, 0, expressao.objeto, expressao.simbolo, valor);
-            } 
-            
+            }
+
             if (expressao instanceof AcessoIndiceVariavel) {
                 return new AtribuicaoPorIndice(this.hashArquivo, 0, expressao.entidadeChamada, expressao.indice, valor);
             }
-            
+
             this.erros.push(this.erro(igual, 'Tarefa de atribuição inválida'));
         }
 
@@ -284,7 +284,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             );
 
             this.consumir(tiposDeSimbolos.PONTO_E_VIRGULA, 'Esperado expressão `;` antes da condição do `PARA`.');
-            
+
             declaracaoInicial = new Var(variavelIteracao, new Literal(this.hashArquivo, Number(valor.linha), Number(valor.literal)));
         } else {
             const declaracaoVetor = await this.resolverDeclaracaoForaDeBloco(); // inicialização da variável de controle
@@ -426,14 +426,14 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRO)) {
             return this.consumir(tiposDeSimbolos.MONSTRO, '');
         }
-        
+
         if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRINHO)) {
             return this.consumir(tiposDeSimbolos.MONSTRINHO, '');
         }
-        
+
         if (this.verificarTipoSimboloAtual(tiposDeSimbolos.MONSTRAO)) {
             return this.consumir(tiposDeSimbolos.MONSTRAO, '');
-        } 
+        }
 
         const erro = this.erro(this.simbolos[this.atual], 'Simbolo referente a inteiro não especificado.');
         this.erros.push(erro);
@@ -488,7 +488,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         if (this.verificarQuebraLinha) {
             this.consumir(tiposDeSimbolos.QUEBRA_LINHA, 'Esperado quebra de linha após ponto-e-vírgula em declaração de variáveis MONSTRO, MONSTRINHO ou MONSTRAO.');
         }
-        
+
         return inicializacoes;
     }
 
@@ -899,87 +899,116 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     }
 
     async resolverDeclaracaoForaDeBloco(): Promise<any> {
-        const simboloAtual = this.simbolos[this.atual];
-        switch (simboloAtual.tipo) {
-            case tiposDeSimbolos.INCREMENTAR:
-            case tiposDeSimbolos.DECREMENTAR:
-                const adicionaOuSubtrai = this.consumir(
-                    simboloAtual.tipo,
-                    'Esperado expressão `INCREMENTAR` ou `DECREMENTAR`.'
-                );
-                if (this.verificarTipoSimboloAtual(tiposDeSimbolos.IDENTIFICADOR)) {
-                    const identificador = this.consumir(
-                        tiposDeSimbolos.IDENTIFICADOR,
-                        'Esperado expressão `IDENTIFICADOR`.'
+        try {
+            const simboloAtual = this.simbolos[this.atual];
+            switch (simboloAtual.tipo) {
+                case tiposDeSimbolos.INCREMENTAR:
+                case tiposDeSimbolos.DECREMENTAR:
+                    const adicionaOuSubtrai = this.consumir(
+                        simboloAtual.tipo,
+                        'Esperado expressão `INCREMENTAR` ou `DECREMENTAR`.'
                     );
-                    return new Unario(
-                        this.hashArquivo,
-                        adicionaOuSubtrai,
-                        new Variavel(this.hashArquivo, identificador),
-                        'ANTES'
-                    );
-                }
-                return;
-            case tiposDeSimbolos.BORA:
-                return this.declaracaoRetorna();
-            case tiposDeSimbolos.SAI:
-                return this.declaracaoSustar();
-            case tiposDeSimbolos.VAMO:
-                return this.declaracaoContinua();
-            case tiposDeSimbolos.QUE:
-                return this.expressaoLeia();
-            case tiposDeSimbolos.ELE:
-                return this.declaracaoSe();
-            case tiposDeSimbolos.NEGATIVA:
-                return this.declacacaoEnquanto();
-            case tiposDeSimbolos.MAIS:
-                return this.declaracaoPara();
-            case tiposDeSimbolos.MONSTRO:
-            case tiposDeSimbolos.MONSTRINHO:
-            case tiposDeSimbolos.MONSTRAO:
-                return this.declaracaoInteiros();
-            case tiposDeSimbolos.BICEPS:
-            case tiposDeSimbolos.FRANGO:
-                return this.declaracaoCaracteres();
-            case tiposDeSimbolos.TRAPEZIO:
-                return this.declaracaoPontoFlutuante();
-            case tiposDeSimbolos.OH:
-                return this.funcao('funcao');
-            case tiposDeSimbolos.AJUDA:
-                return this.declaracaoChamadaFuncao();
-            case tiposDeSimbolos.CE:
-                return this.declaracaoEscreva();
-            case tiposDeSimbolos.PONTO_E_VIRGULA:
-            case tiposDeSimbolos.QUEBRA_LINHA:
-                this.avancarEDevolverAnterior();
-                return null;
-            case tiposDeSimbolos.IDENTIFICADOR:
-                const simboloIdentificador: SimboloInterface = this.simbolos[this.atual];
-                if (
-                    this.simbolos[this.atual + 1] &&
-                    [tiposDeSimbolos.DECREMENTAR, tiposDeSimbolos.INCREMENTAR].includes(
-                        this.simbolos[this.atual + 1].tipo
-                    )
-                ) {
+                    if (this.verificarTipoSimboloAtual(tiposDeSimbolos.IDENTIFICADOR)) {
+                        const identificador = this.consumir(
+                            tiposDeSimbolos.IDENTIFICADOR,
+                            'Esperado expressão `IDENTIFICADOR`.'
+                        );
+                        return new Unario(
+                            this.hashArquivo,
+                            adicionaOuSubtrai,
+                            new Variavel(this.hashArquivo, identificador),
+                            'ANTES'
+                        );
+                    }
+                    return;
+                case tiposDeSimbolos.BORA:
+                    return this.declaracaoRetorna();
+                case tiposDeSimbolos.SAI:
+                    return this.declaracaoSustar();
+                case tiposDeSimbolos.VAMO:
+                    return this.declaracaoContinua();
+                case tiposDeSimbolos.QUE:
+                    return this.expressaoLeia();
+                case tiposDeSimbolos.ELE:
+                    return this.declaracaoSe();
+                case tiposDeSimbolos.NEGATIVA:
+                    return this.declacacaoEnquanto();
+                case tiposDeSimbolos.MAIS:
+                    return this.declaracaoPara();
+                case tiposDeSimbolos.MONSTRO:
+                case tiposDeSimbolos.MONSTRINHO:
+                case tiposDeSimbolos.MONSTRAO:
+                    return this.declaracaoInteiros();
+                case tiposDeSimbolos.BICEPS:
+                case tiposDeSimbolos.FRANGO:
+                    return this.declaracaoCaracteres();
+                case tiposDeSimbolos.TRAPEZIO:
+                    return this.declaracaoPontoFlutuante();
+                case tiposDeSimbolos.OH:
+                    return this.funcao('funcao');
+                case tiposDeSimbolos.AJUDA:
+                    return this.declaracaoChamadaFuncao();
+                case tiposDeSimbolos.CE:
+                    return this.declaracaoEscreva();
+                case tiposDeSimbolos.PONTO_E_VIRGULA:
+                case tiposDeSimbolos.QUEBRA_LINHA:
                     this.avancarEDevolverAnterior();
-                    const simboloIncrementoDecremento: SimboloInterface = this.avancarEDevolverAnterior();
-                    return new Unario(
-                        this.hashArquivo,
-                        simboloIncrementoDecremento,
-                        new Variavel(this.hashArquivo, simboloIdentificador),
-                        'DEPOIS'
-                    );
-                }
+                    return null;
+                case tiposDeSimbolos.IDENTIFICADOR:
+                    const simboloIdentificador: SimboloInterface = this.simbolos[this.atual];
+                    if (
+                        this.simbolos[this.atual + 1] &&
+                        [tiposDeSimbolos.DECREMENTAR, tiposDeSimbolos.INCREMENTAR].includes(
+                            this.simbolos[this.atual + 1].tipo
+                        )
+                    ) {
+                        this.avancarEDevolverAnterior();
+                        const simboloIncrementoDecremento: SimboloInterface = this.avancarEDevolverAnterior();
+                        return new Unario(
+                            this.hashArquivo,
+                            simboloIncrementoDecremento,
+                            new Variavel(this.hashArquivo, simboloIdentificador),
+                            'DEPOIS'
+                        );
+                    }
 
-                return await this.expressao();
-            default:
-                return await this.expressao();
+                    return await this.expressao();
+                default:
+                    return await this.expressao();
+            }
+        } catch (erro: any) {
+            this.sincronizar();
+            this.erros.push(erro);
+            return undefined;
+        }
+    }
+
+    /**
+     * Usado quando há erros na avaliação sintática.
+     * Garante que o avaliador sintático não entre em _loop_ infinito.
+     * @returns Sempre retorna `void`.
+     */
+    protected sincronizar(): void {
+        this.avancarEDevolverAnterior(); // avança além do token com erro
+
+        while (!this.estaNoFinal()) {
+            // Uma palavra-chave de início de declaração ou fecha-chave à frente:
+            // retorna SEM consumir o token, para que o chamador o analise normalmente.
+            switch (this.simbolos[this.atual].tipo) {
+                case tiposDeSimbolos.PARA:
+                case tiposDeSimbolos.SE:
+                case tiposDeSimbolos.ENQUANTO:
+                case tiposDeSimbolos.ESCREVER:
+                    return;
+            }
+
+            this.avancarEDevolverAnterior();
         }
     }
 
     async analisar(
         retornoLexador: RetornoLexador<SimboloInterface>,
-        hashArquivo: number
+        _: number
     ): Promise<RetornoAvaliadorSintatico<Declaracao>> {
         this.erros = [];
         this.blocos = 0;

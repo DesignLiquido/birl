@@ -83,6 +83,8 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
                 message: 'Erro: Combinação desconhecida de símbolos.',
                 name: 'ErroSintatico',
                 simbolo: simbolos[0],
+                simboloRelacionado: simbolos.length > 1 ? simbolos[1] : undefined as any,
+                codigoDiagnostico: 'SINTATICO_ERRO_GENERICO'
             });
             return;
         }
@@ -101,6 +103,8 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
             message: 'Erro: Combinação desconhecida de símbolos.',
             name: 'ErroSintatico',
             simbolo: simbolos[0],
+            simboloRelacionado: simbolos.length > 1 ? simbolos[1] : undefined as any,
+            codigoDiagnostico: 'SINTATICO_ERRO_GENERICO'
         });
 
         return;

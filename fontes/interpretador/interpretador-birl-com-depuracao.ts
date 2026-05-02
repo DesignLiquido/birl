@@ -1,7 +1,7 @@
-import { Construto, Leia, Literal } from '@designliquido/delegua/construtos';
+import { Leia, Literal } from '@designliquido/delegua/construtos';
 import { Declaracao, Para, Retorna } from '@designliquido/delegua/declaracoes';
 import { InterpretadorBaseComDepuracao } from '@designliquido/delegua/interpretador/depuracao';
-import { InterpretadorInterface, RetornoInterpretadorInterface } from '@designliquido/delegua/interfaces';
+import { ConstrutoInterface, InterpretadorInterface, RetornoInterpretadorInterface } from '@designliquido/delegua/interfaces';
 import { RetornoQuebra } from '@designliquido/delegua/quebras';
 
 import * as comum from './comum';
@@ -21,7 +21,7 @@ export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao
 
     async atribuirVariavel(
         interpretador: InterpretadorInterface,
-        expressao: Construto,
+        expressao: ConstrutoInterface,
         valor: any,
         tipo: string
     ): Promise<any> {
@@ -85,7 +85,7 @@ export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao
         return retorno;
     }
 
-    async avaliarArgumentosEscreva(argumentos: Construto[]): Promise<string> {
+    async avaliarArgumentosEscreva(argumentos: ConstrutoInterface[]): Promise<string> {
         return comum.avaliarArgumentosEscreva(this, argumentos);
     }
 

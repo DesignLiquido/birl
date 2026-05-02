@@ -1,10 +1,10 @@
-import { InterpretadorInterface, RetornoInterpretadorInterface } from '@designliquido/delegua';
-import { AcessoIndiceVariavel, Construto, Leia, Literal, Variavel } from '@designliquido/delegua/construtos';
+import { ConstrutoInterface, InterpretadorInterface, RetornoInterpretadorInterface } from '@designliquido/delegua';
+import { AcessoIndiceVariavel, Leia, Literal, Variavel } from '@designliquido/delegua/construtos';
 import { Declaracao, Para } from '@designliquido/delegua/declaracoes';
 import { EspacoMemoria } from '@designliquido/delegua/interpretador/espaco-memoria';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
-import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
 import { ContinuarQuebra, Quebra, SustarQuebra } from '@designliquido/delegua/quebras';
+import { EscopoExecucaoInterface } from '@designliquido/delegua/interfaces/escopo-execucao';
 
 function converterTipoOuEstourarErro(valor: any, tipo: string) {
     try {
@@ -30,7 +30,7 @@ function converterTipoOuEstourarErro(valor: any, tipo: string) {
 
 export async function atribuirVariavel(
     interpretador: InterpretadorInterface,
-    expressao: Construto,
+    expressao: ConstrutoInterface,
     valor: any,
     tipo: string
 ): Promise<any> {
@@ -81,7 +81,7 @@ export async function atribuirVariavel(
 
 export async function avaliarArgumentosEscreva(
     interpretador: InterpretadorInterface,
-    argumentos: Construto[]
+    argumentos: ConstrutoInterface[]
 ): Promise<string> {
     let formatoTexto: string = '';
     let quantidadeInterpolacoes: RegExpMatchArray | null;
@@ -136,7 +136,7 @@ export async function resolverQuantidadeDeInterpolacoes(texto: Literal): Promise
     return matches;
 }
 
-export async function verificarTipoDaInterpolacao(dados: { tipo: string; valor: any }) {
+export async function verificarTipoDaInterpolacao(dados: { tipo: string; valor: any }): Promise<boolean> {
     switch (dados.tipo) {
         case 'd':
         case 'i':
@@ -276,7 +276,7 @@ export async function interpretar(
 ): Promise<RetornoInterpretadorInterface> {
     interpretador.erros = [];
 
-    const escopoExecucao: EscopoExecucao = {
+    const escopoExecucao: EscopoExecucaoInterface = {
         declaracoes: declaracoes,
         declaracaoAtual: 0,
         espacoMemoria: new EspacoMemoria(),

@@ -1,8 +1,7 @@
-import { RetornoLexador } from '@designliquido/delegua/interfaces/retornos';
 import { ErroLexador } from '@designliquido/delegua/lexador/erro-lexador';
 import { LexadorBaseLinhaUnica } from '@designliquido/delegua/lexador/lexador-base-linha-unica';
 import { Simbolo } from '@designliquido/delegua/lexador/simbolo';
-import { SimboloInterface } from '@designliquido/delegua/interfaces';
+import { RetornoLexadorInterface, SimboloInterface } from '@designliquido/delegua/interfaces';
 
 import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 import { palavrasReservadas } from './palavras-reservadas';
@@ -229,7 +228,7 @@ export class LexadorBirl extends LexadorBaseLinhaUnica {
 
         return [...codigoComeco, ...codigoPosPosição];
     }
-    mapear(codigo: string[], hashArquivo: number = -1): RetornoLexador<SimboloInterface> {
+    mapear(codigo: string[], hashArquivo: number = -1): RetornoLexadorInterface<SimboloInterface> {
         this.erros = [];
         this.simbolos = [];
         this.inicioSimbolo = 0;
@@ -249,6 +248,6 @@ export class LexadorBirl extends LexadorBaseLinhaUnica {
         return {
             simbolos: this.simbolos,
             erros: this.erros,
-        } as RetornoLexador<SimboloInterface>;
+        } as RetornoLexadorInterface<SimboloInterface>;
     }
 }

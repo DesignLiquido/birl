@@ -28,11 +28,8 @@ import {
     Sustar,
     Var,
 } from '@designliquido/delegua/declaracoes';
-import { RetornoAvaliadorSintatico, RetornoLexador } from '@designliquido/delegua/interfaces/retornos';
 import { AvaliadorSintaticoBase } from '@designliquido/delegua/avaliador-sintatico/avaliador-sintatico-base';
-
-import { Construto } from '@designliquido/delegua/construtos/construto';
-import { ParametroInterface, SimboloInterface } from '@designliquido/delegua/interfaces';
+import { ConstrutoInterface, ParametroInterface, RetornoAvaliadorSintaticoInterface, RetornoLexadorInterface, SimboloInterface } from '@designliquido/delegua/interfaces';
 
 import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 
@@ -124,7 +121,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         this.blocos -= 1;
     }
 
-    async primario(): Promise<Construto> {
+    async primario(): Promise<ConstrutoInterface> {
         if (this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.ADICAO)) {
             return new Literal(this.hashArquivo, Number(this.simboloAnterior().linha), true);
         }
@@ -163,7 +160,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         throw this.erro(this.simbolos[this.atual] ?? this.simbolos[this.atual - 1], 'Esperado expressão.');
     }
 
-    async chamar(): Promise<Construto> {
+    async chamar(): Promise<ConstrutoInterface> {
         let expressao = await this.primario();
 
         while (true) {
@@ -182,7 +179,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         return expressao;
     }
 
-    async unario(): Promise<Construto> {
+    async unario(): Promise<ConstrutoInterface> {
         // Prefix increment/decrement
         if (this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.INCREMENTAR) ||
             this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.DECREMENTAR)) {
@@ -194,7 +191,7 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         return await this.chamar();
     }
 
-    async atribuir(): Promise<Construto> {
+    async atribuir(): Promise<ConstrutoInterface> {
         const expressao = await this.ou();
 
         if (this.verificarSeSimboloAtualEIgualA(tiposDeSimbolos.IGUAL)) {
@@ -1011,9 +1008,9 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
     }
 
     async analisar(
-        retornoLexador: RetornoLexador<SimboloInterface>,
+        retornoLexador: RetornoLexadorInterface<SimboloInterface>,
         _: number
-    ): Promise<RetornoAvaliadorSintatico<Declaracao>> {
+    ): Promise<RetornoAvaliadorSintaticoInterface<Declaracao>> {
         this.erros = [];
         this.blocos = 0;
         this.atual = 0;
@@ -1025,6 +1022,6 @@ export class AvaliadorSintaticoBirl extends AvaliadorSintaticoBase {
         return {
             declaracoes: declaracoes.filter((d) => d),
             erros: this.erros,
-        } as RetornoAvaliadorSintatico<Declaracao>;
+        } as RetornoAvaliadorSintaticoInterface<Declaracao>;
     }
 }

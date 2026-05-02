@@ -21,8 +21,7 @@ import {
     Retorna,
     Var
 } from '@designliquido/delegua/declaracoes';
-import { DiagnosticoAnalisadorSemantico, DiagnosticoSeveridade, ParametroInterface, SimboloInterface } from '@designliquido/delegua/interfaces';
-import { RetornoAnalisadorSemantico } from '@designliquido/delegua/interfaces/retornos/retorno-analisador-semantico';
+import { DiagnosticoAnalisadorSemanticoInterface, DiagnosticoSeveridade, ParametroInterface, RetornoAnalisadorSemanticoInterface, SimboloInterface } from '@designliquido/delegua/interfaces';
 import { RetornoQuebra } from '@designliquido/delegua/quebras';
 import { AnalisadorSemanticoBase } from '@designliquido/delegua/analisador-semantico/analisador-semantico-base';
 import { PilhaVariaveis } from '@designliquido/delegua/analisador-semantico/pilha-variaveis';
@@ -33,7 +32,7 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
     pilhaVariaveis: PilhaVariaveis;
     funcoes: { [nomeFuncao: string]: FuncaoHipoteticaInterface };
     atual: number;
-    diagnosticos: DiagnosticoAnalisadorSemantico[];
+    diagnosticos: DiagnosticoAnalisadorSemanticoInterface[];
 
     constructor() {
         super();
@@ -965,7 +964,7 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
     /**
      * Analisa as declarações e retorna os diagnósticos
      */
-    async analisar(declaracoes: Declaracao[]): Promise<RetornoAnalisadorSemantico> {
+    async analisar(declaracoes: Declaracao[]): Promise<RetornoAnalisadorSemanticoInterface> {
         // Inicializa o gerenciador de escopos
         this.gerenciadorEscopos = new GerenciadorEscopos();
         this.atual = 0;
@@ -981,6 +980,6 @@ export class AnalisadorSemanticoBirl extends AnalisadorSemanticoBase {
 
         return {
             diagnosticos: this.diagnosticos,
-        } as RetornoAnalisadorSemantico;
+        } as RetornoAnalisadorSemanticoInterface;
     }
 }

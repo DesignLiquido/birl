@@ -1,7 +1,6 @@
 import {
     Atribuir,
     Binario,
-    Construto,
     FimPara,
     Leia,
     Literal,
@@ -24,7 +23,6 @@ import {
     EscrevaMesmaLinha,
     Expressao,
     Fazer,
-    FuncaoDeclaracao,
     Para,
     ParaCada,
     Retorna,
@@ -43,9 +41,8 @@ import {
     ObjetoPadrao,
 } from '@designliquido/delegua/interpretador/estruturas';
 import { ErroEmTempoDeExecucao } from '@designliquido/delegua/excecoes';
-import { ParametroInterface, RetornoInterpretadorInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
+import { ConstrutoInterface, ParametroInterface, RetornoInterpretadorInterface, SimboloInterface, VariavelInterface } from '@designliquido/delegua/interfaces';
 import { ErroInterpretadorInterface } from '@designliquido/delegua/interfaces/erros/erro-interpretador-interface';
-import { EscopoExecucao } from '@designliquido/delegua/interfaces/escopo-execucao';
 import { PilhaEscoposExecucaoInterface } from '@designliquido/delegua/interfaces/pilha-escopos-execucao-interface';
 import { ContinuarQuebra, Quebra, RetornoQuebra, SustarQuebra } from '@designliquido/delegua/quebras';
 import { ArgumentoInterface } from '@designliquido/delegua/interpretador/argumento-interface';
@@ -56,6 +53,7 @@ import { PilhaEscoposExecucao } from '@designliquido/delegua/interpretador/pilha
 import tiposDeSimbolos from '../tipos-de-simbolos/lexico-regular';
 
 import * as comum from './comum';
+import { EscopoExecucaoInterface } from '@designliquido/delegua/interfaces/escopo-execucao';
 
 export class InterpretadorBirl extends InterpretadorBase {
     diretorioBase: any;
@@ -104,7 +102,7 @@ export class InterpretadorBirl extends InterpretadorBase {
         this.declaracoes = [];
 
         this.pilhaEscoposExecucao = new PilhaEscoposExecucao();
-        const escopoExecucao: EscopoExecucao = {
+        const escopoExecucao: EscopoExecucaoInterface = {
             declaracoes: [],
             declaracaoAtual: 0,
             espacoMemoria: new EspacoMemoria(),
@@ -127,7 +125,7 @@ export class InterpretadorBirl extends InterpretadorBase {
         throw new Error('Método não implementado.');
     }
 
-    async avaliar(expressao: Construto | Declaracao): Promise<any> {
+    async avaliar(expressao: ConstrutoInterface | Declaracao): Promise<any> {
         // @todo: Implementar validação mais inteligente.
         // Descomente o código abaixo quando precisar detectar expressões undefined ou nulas.
         // Por algum motivo o depurador do VSCode não funciona direito aqui
@@ -148,7 +146,7 @@ export class InterpretadorBirl extends InterpretadorBase {
      * @param espacoMemoria O ambiente de execução quando houver, como parâmetros, argumentos, etc.
      */
     async executarBloco(declaracoes: Declaracao[], espacoMemoria?: EspacoMemoria): Promise<any> {
-        const escopoExecucao: EscopoExecucao = {
+        const escopoExecucao: EscopoExecucaoInterface = {
             declaracoes: declaracoes,
             declaracaoAtual: 0,
             espacoMemoria: espacoMemoria || new EspacoMemoria(),
@@ -654,7 +652,7 @@ export class InterpretadorBirl extends InterpretadorBase {
         return comum.verificarTipoDaInterpolacao(dados);
     }
 
-    async avaliarArgumentosEscreva(argumentos: Construto[]): Promise<string> {
+    async avaliarArgumentosEscreva(argumentos: ConstrutoInterface[]): Promise<string> {
         return comum.avaliarArgumentosEscreva(this, argumentos);
     }
 

@@ -19,15 +19,6 @@ export class InterpretadorBirlComDepuracao extends InterpretadorBaseComDepuracao
         );
     }
 
-    async atribuirVariavel(
-        interpretador: InterpretadorInterface,
-        expressao: ConstrutoInterface,
-        valor: any,
-        tipo: string
-    ): Promise<any> {
-        return comum.atribuirVariavel(interpretador, expressao, valor, tipo);
-    }
-
     async resolverQuantidadeDeInterpolacoes(expressao: Literal): Promise<RegExpMatchArray | null> {
         return comum.resolverQuantidadeDeInterpolacoes(expressao);
     }

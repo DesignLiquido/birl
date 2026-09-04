@@ -764,6 +764,8 @@ export class InterpretadorBirl extends InterpretadorBase {
 
         if (Array.isArray(objeto)) return objeto;
         if (objeto.valor instanceof ObjetoPadrao) return objeto.valor.paraTexto();
+        if (objeto instanceof DeleguaFuncao) return objeto.paraTexto();
+        if (objeto.declaracao instanceof DeleguaFuncao) return objeto.declaracao.paraTexto();
         if (typeof objeto === 'object') return JSON.stringify(objeto);
 
         return objeto.toString();
